@@ -1,0 +1,1 @@
+A Bootstrap 5 based theme that I use for the website <https://swecov.se>.

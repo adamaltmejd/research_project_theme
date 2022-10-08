@@ -1,0 +1,65 @@
+//
+// Global theme styling
+//
+
+body > header {
+    background-color: $secondary;
+    a { color: $primary !important; }
+    a.active {
+        color: $warning !important;
+        // text-decoration: underline;
+    }
+
+    margin-bottom: $spacer * 2;
+    border-bottom: 3pt solid $primary;
+
+    .navbar-brand { font-size: 2rem; font-weight: 800;}
+    #header-subtitle { display: none; }
+    @include media-breakpoint-up(md) {
+        #header-logo {
+            font-size: 5rem;
+            display: block;
+        }
+        #header-subtitle {
+            font-size: 1rem;
+            display: block;
+        }
+    }
+
+    #main_nav {
+        padding-bottom: 0;
+        ul {
+            @include media-breakpoint-up(md) {
+                // border-top: 1pt solid $primary;
+            }
+        }
+        .nav-item {
+            font-size: $font-size-lg;
+            font-family: $headings-font-family;
+            font-weight: 600;
+        }
+    }
+
+}
+
+article {
+    h1, h2, h3{
+        text-align: center;
+    }
+    h1 { padding-top: 0; padding-bottom: $spacer * 0.3}
+    h2 { padding-top: $spacer * 1.3; padding-bottom: $spacer * 0.3}
+    h3 { padding-top: $spacer * 1; padding-bottom: $spacer * 0.3}
+
+    .list-group {
+        h6 a { color: $body-color; }
+        a {
+            text-decoration: none !important;
+        }
+    }
+}
+
+footer#site-footer {
+    border-top: 3pt solid $primary;
+    margin-top: $spacer * 2;
+    margin-bottom: $spacer * 4;
+}

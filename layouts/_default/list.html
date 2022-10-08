@@ -1,0 +1,28 @@
+{{ define "main" }}
+    <main>
+        {{ with.Content }}
+        <article>
+            {{ . }}
+        </article>
+        {{ end }}
+        <article>
+            <h2>Research projects</h2>
+            <ul class="list-group">
+                {{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+                {{ if .IsHome }}
+                    {{ range $pages }}{{ .Render "li"}}{{ end }}
+                {{ end }}
+                {{ if not .IsHome }}
+                    {{ range $pages }}{{ .Render "summary"}}{{ end }}
+                {{ end }}
+            </ul>
+        </article>
+    </main>
+{{ end }}
+
+
+
+
+
+
+

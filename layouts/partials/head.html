@@ -1,0 +1,33 @@
+<head>
+    <title>{{ .Title }}</title>
+    <meta charset="utf-8">
+    <meta name="description" content="{{if .IsHome}}{{ .Site.Params.description }}{{else}}{{.Description}}{{end}}" />
+    <meta name="dc.relation" content="{{ .Site.BaseURL }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Fontawesome -->
+    <script src="https://kit.fontawesome.com/5e1d50737e.js" crossorigin="anonymous"></script>
+
+    {{- /* Load Bootstrap SCSS. */ -}}
+    {{- $options := dict "enableSourceMap" true -}}
+    {{- if hugo.IsProduction -}}
+    {{- $options := dict "enableSourceMap" false "outputStyle" "compressed" -}}
+    {{- end -}}
+    {{- $styles := resources.Get "scss/main.scss" -}}
+    {{- $styles = $styles | resources.ToCSS $options -}}
+    {{- if hugo.IsProduction -}}
+    {{- $styles = $styles | fingerprint -}}
+    {{- end -}}
+    <link href="{{ $styles.Permalink }}" rel="stylesheet" />
+
+    {{- /* Load Bootstrap JS. */ -}}
+    {{- $js := resources.Get "js/index.js" -}}
+    {{- $params := dict -}}
+    {{- $sourceMap := cond hugo.IsProduction "" "inline" -}}
+    {{- $opts := dict "sourceMap" $sourceMap "minify" hugo.IsProduction "target" "es2018" "params" $params -}}
+    {{- $js = $js | js.Build $opts -}}
+    {{- if hugo.IsProduction -}}
+    {{- $js = $js | fingerprint -}}
+    {{- end -}}
+    <script src="{{ $js.Permalink }}" {{- if hugo.IsProduction -}}integrity="{{ $js.Data.Integrity }}"{{- end }} defer></script>
+</head>

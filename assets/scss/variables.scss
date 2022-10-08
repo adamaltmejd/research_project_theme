@@ -1,0 +1,47 @@
+//
+// Colors
+//
+$primary:       #D94701;
+$secondary:     #FDBE85;
+$warning:       #FD8D3C;
+$success:       #A6BDDB;
+$info:          #74A9CF;
+$danger:        #2B8CBE;
+$light:         #f8f9fa;
+$dark:          #212529;
+
+$body-color:    #343a40; // gray-800
+$body-bg:       #f8f9fa; // gray-100
+
+//
+// Options
+//
+// $enable-rounded: false;
+
+//
+// Typography
+//
+$font-size-base:              1rem; // Assumes the browser default, typically `16px`
+$font-size-sm:                $font-size-base * .875;
+$font-size-lg:                $font-size-base * 1.25;
+$body-text-align:             "justify";
+
+
+// Headings
+$headings-font-weight:        600;
+$h1-font-size:                $font-size-base * 2;
+$h2-font-size:                $font-size-base * 1.75;
+$h3-font-size:                $font-size-base * 1.5;
+$h4-font-size:                $font-size-base * 1.25;
+$h5-font-size:                $font-size-base * 1.1;
+$h6-font-size:                $font-size-base;
+
+// Override Bootstrap typography variables
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Epilogue:wght@800&display=swap');
+$font-family-base:      "EB Garamond", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$headings-font-family:  "Epilogue", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+// Links
+// $link-color: $gray-900;
+// $link-hover-color: $primary;
+// $link-decoration: none;
