@@ -18,7 +18,7 @@
     {{- if hugo.IsProduction -}}
     {{- $styles = $styles | fingerprint -}}
     {{- end -}}
-    <link href="{{ $styles.Permalink }}" rel="stylesheet" />
+    <link href="{{ $styles.RelPermalink }}" rel="stylesheet" />
 
     {{- /* Load Bootstrap JS. */ -}}
     {{- $js := resources.Get "js/index.js" -}}
@@ -29,5 +29,5 @@
     {{- if hugo.IsProduction -}}
     {{- $js = $js | fingerprint -}}
     {{- end -}}
-    <script src="{{ $js.Permalink }}" {{- if hugo.IsProduction -}}integrity="{{ $js.Data.Integrity }}"{{- end }} defer></script>
+    <script src="{{ $js.RelPermalink }}" {{- if hugo.IsProduction -}}integrity="{{ $js.Data.Integrity }}"{{- end }} defer></script>
 </head>

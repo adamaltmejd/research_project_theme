@@ -3,8 +3,11 @@
     {{ .Title }} &ndash; {{ .Site.Title }}
 {{ end }}
 {{ define "main" }}
-    <main><article>
-        <h1>{{ .Title }}</h1>
-        {{ .Content }}
-    </article></main>
+    <main>
+        <article>
+            {{ if eq .Section "projects" }}{{ partial "project_info.html" . }}{{ end }}
+            <h1>{{ .Title }}</h1>
+            {{ .Content }}
+        </article>
+    </main>
 {{ end }}
