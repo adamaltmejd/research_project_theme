@@ -5,19 +5,17 @@
 body > header {
     background-color: $secondary;
     a { color: $primary !important; }
-    a.active {
-        color: $warning !important;
-        // text-decoration: underline;
-    }
 
     margin-bottom: $spacer * 2;
     border-bottom: 3pt solid $primary;
 
-    .navbar-brand { font-size: 2rem; font-weight: 800;}
+    .site_brand { font-size: 2.2rem; font-weight: 800; text-decoration: none; font-family: $headings-font-family; }
     #header-subtitle { display: none; }
     @include media-breakpoint-up(md) {
         #header-logo {
             font-size: 5rem;
+            margin-bottom: -1rem;
+            margin-top: -1rem;
             display: block;
         }
         #header-subtitle {
@@ -28,11 +26,6 @@ body > header {
 
     #main_nav {
         padding-bottom: 0;
-        ul {
-            @include media-breakpoint-up(md) {
-                // border-top: 1pt solid $primary;
-            }
-        }
         .nav-item {
             font-size: $font-size-lg;
             font-family: $headings-font-family;
@@ -43,6 +36,9 @@ body > header {
 }
 
 article {
+    text-align: justify;
+    text-justify: inter-word;
+
     h1, h2, h3{
         text-align: center;
     }
@@ -56,6 +52,8 @@ article {
             text-decoration: none !important;
         }
     }
+
+    .card-text { text-align: left; }
 }
 
 footer#site-footer {

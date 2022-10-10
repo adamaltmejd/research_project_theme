@@ -1,15 +1,9 @@
 //
 // Colors
 //
-$primary:       #D94701;
-$secondary:     #FDBE85;
-$warning:       #FD8D3C;
-$success:       #A6BDDB;
-$info:          #74A9CF;
-$danger:        #2B8CBE;
+// Set in main.scss for templating.
 $light:         #f8f9fa;
 $dark:          #212529;
-
 $body-color:    #343a40; // gray-800
 $body-bg:       #f8f9fa; // gray-100
 
@@ -24,7 +18,6 @@ $body-bg:       #f8f9fa; // gray-100
 $font-size-base:              1rem; // Assumes the browser default, typically `16px`
 $font-size-sm:                $font-size-base * .875;
 $font-size-lg:                $font-size-base * 1.25;
-$body-text-align:             "justify";
 
 
 // Headings
