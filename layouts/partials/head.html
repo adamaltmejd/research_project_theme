@@ -4,6 +4,10 @@
     <meta name="description" content="{{if .IsHome}}{{ .Site.Params.description }}{{else}}{{.Description}}{{end}}" />
     <meta name="dc.relation" content="{{ .Site.BaseURL }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {{- with .Site.Params.icon -}}
+        <link rel="icon" href="img/{{ . }}.svg">
+        <link rel="mask-icon" href="img/{{ . }}.svg" color="{{ $.Site.Params.primary_color }}">
+    {{- end -}}
 
     <!-- Fontawesome -->
     <script src="https://kit.fontawesome.com/5e1d50737e.js" crossorigin="anonymous"></script>
@@ -13,10 +17,10 @@
     {{- if hugo.IsProduction -}}
     {{- $options := dict "enableSourceMap" false "outputStyle" "compressed" -}}
     {{- end -}}
-    {{- $styles := resources.Get "scss/main.scss" -}}
-    {{- $styles = $styles | resources.ToCSS $options -}}
+    {{- $sassTemplate := resources.Get "scss/main.scss" -}}
+    {{- $styles := $sassTemplate | resources.ExecuteAsTemplate "css.scss" . | resources.ToCSS $options -}}
     {{- if hugo.IsProduction -}}
-    {{- $styles = $styles | fingerprint -}}
+    {{- $styles = $styles | resources.Minify | resources.Fingerprint -}}
     {{- end -}}
     <link href="{{ $styles.RelPermalink }}" rel="stylesheet" />
 
@@ -27,7 +31,7 @@
     {{- $opts := dict "sourceMap" $sourceMap "minify" hugo.IsProduction "target" "es2018" "params" $params -}}
     {{- $js = $js | js.Build $opts -}}
     {{- if hugo.IsProduction -}}
-    {{- $js = $js | fingerprint -}}
+    {{- $js = $js | resources.Minify | resources.Fingerprint -}}
     {{- end -}}
     <script src="{{ $js.RelPermalink }}" {{- if hugo.IsProduction -}}integrity="{{ $js.Data.Integrity }}"{{- end }} defer></script>
 </head>
