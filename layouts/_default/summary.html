@@ -1,8 +1,8 @@
 <div class="card my-1">
     <div class="card-body">
-        {{ with .Params.status }}<span class="float-end badge text-bg-success ms-1 text-muted">{{ . }}</span>{{ end }}
-        {{ with .Params.paper_url }}<span class="float-end badge text-bg-success ms-1" style="z-index: 2; position: relative;"><a class="text-bg-success text-muted" href="{{ . }}"><i class="fa-solid fa-file-pdf"></i> Paper</a></span>{{ end }}
-        <h5 class="card-title">{{ .Title }}</h5>
+        {{ with .Params.status }}<span class="float-end badge text-bg-warning ms-1 text-muted"><i class="fa-solid fa-bars-progress"></i> {{ . }}</span>{{ end }}
+        {{ with .Params.paper_url }}<span class="float-end badge text-bg-warning ms-1" style="z-index: 2; position: relative;"><a class="text-bg-warning text-muted" href="{{ . }}"><i class="fa-solid fa-file-pdf"></i> Paper</a></span>{{ end }}
+        <h5 class="card-title mb-3">{{ .Title }}</h5>
         <h6 class="card-subtitle mb-2 text-muted">{{ delimit .Params.authors ", " ", and " | markdownify }}</h6>
         <p class="card-text">{{ .Summary }}</p>
     </div>
