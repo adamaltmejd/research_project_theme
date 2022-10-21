@@ -4,7 +4,7 @@
     <meta name="description" content="{{if .IsHome}}{{ .Site.Params.description }}{{else}}{{.Description}}{{end}}" />
     <meta name="dc.relation" content="{{ .Site.BaseURL }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {{- with .Site.Params.icon -}}
+    {{- with .Site.Params.favicon -}}
         <link rel="icon" href="img/{{ . }}.svg">
         <link rel="mask-icon" href="img/{{ . }}.svg" color="{{ $.Site.Params.primary_color }}">
     {{- end -}}

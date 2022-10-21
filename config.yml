@@ -3,4 +3,5 @@ module:
     extended: true
     min: 0.104.0
   imports:
-    - path: "github.com/gohugoio/hugo-mod-bootstrap-scss/v5"
+    - path: 'github.com/gohugoio/hugo-mod-bootstrap-scss/v5'
+    - path: 'github.com/adamaltmejd/hugo-icons'

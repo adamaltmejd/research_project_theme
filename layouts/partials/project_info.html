@@ -1,12 +1,12 @@
 <ul class="list-group mb-4">
     <li class="list-group-item">
-        <i class="fa-regular fa-clock"></i> {{ .Date.Format "Mon, Jan 2, 2006" }}
-        {{- with .Params.status }}<span class="float-end"><i class="fa-solid fa-bars-progress"></i> {{ . }}</span>{{ end -}}
+        {{ partial "icon" "clock" }} {{ .Date.Format "Mon, Jan 2, 2006" }}
+        {{- with .Params.status }}<span class="float-end">{{ partial "icon" "progress" }} {{ . }}</span>{{ end -}}
     </li>
     {{ with .Params.authors }}
-    <li class="list-group-item"><i class="fa-solid fa-user-pen"></i> {{ delimit . ", " ", and " }}</li>
+    <li class="list-group-item">{{ partial "icon" "user" }} {{ delimit . ", " ", and " }}</li>
     {{ end }}
     {{ with .Params.paper_url }}
-        <li class="list-group-item"><a href="{{ . }}"><i class="fa-solid fa-file-pdf"></i> Download paper</a></li>
+        <li class="list-group-item"><a href="{{ . }}">{{ partial "icon" "pdf" }} Download paper</a></li>
     {{ end }}
 </ul>

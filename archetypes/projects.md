@@ -2,8 +2,10 @@
 title: "{{ replace .Name "-" " " | title }}"
 date: {{ .Date }}
 draft: false
-status:
+status: 'Ongoing'
 url:
+authors:
+  - ''
 ---
 
 # {{ .Name }}

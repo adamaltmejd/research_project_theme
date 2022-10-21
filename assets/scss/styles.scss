@@ -54,10 +54,25 @@ article {
     }
 
     .card-text { text-align: left; }
+    .card-title { text-align: left; }
+    .card-subtitle { text-align: left; }
 }
 
 footer#site-footer {
     border-top: 3pt solid $primary;
     margin-top: $spacer * 2;
     margin-bottom: $spacer * 4;
+}
+
+.icon {
+    fill: currentColor;
+    overflow: visible;
+    display: inline-block;
+    height: 1.05em;
+    width: 1.05em;
+    vertical-align: -0.19em;
+    // FA recommendations
+    // width: 1em;
+    // height: 1em;
+    // vertical-align: -.125em;
 }

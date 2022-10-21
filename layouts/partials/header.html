@@ -8,7 +8,7 @@
                 </button>
                 <a class="site_brand text-center ms-auto mx-md-auto" href="{{ "/" | relLangURL }}">
                     {{- .Site.Title -}}
-                    {{- with .Site.Params.icon -}}<span id="header-logo"><i class='fas fa-{{ . }} fa-fw'></i></span>{{- end -}}
+                    {{- if .Site.Params.brand_icon -}}<span id="header-logo">{{ partial "icon" "brand" }}</span>{{- end -}}
                     {{- with .Site.Params.subtitle -}}<span id="header-subtitle">{{ . }}</span>{{- end -}}
                 </a>
             </div>
