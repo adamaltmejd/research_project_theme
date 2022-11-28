@@ -2,6 +2,11 @@
 // Global theme styling
 //
 
+html {
+    // Ensure page does not shift when scrollbar appears.
+    overflow-y: scroll;
+}
+
 body > header {
     background-color: $secondary;
     a { color: $primary !important; }
