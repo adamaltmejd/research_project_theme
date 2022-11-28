@@ -3,7 +3,7 @@ title: "{{ replace .Name "-" " " | title }}"
 date: {{ .Date }}
 draft: false
 status: 'Ongoing'
-url:
+paper_url:
 authors:
   - ''
 ---
