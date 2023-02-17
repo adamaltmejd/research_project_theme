@@ -1,5 +1,5 @@
-<li class="list-group-item">
-    {{ with .Params.status }}<span class="float-end badge text-bg-warning ms-1 mb-1 text-muted">{{ partial "icon" "progress" }} {{ . }}</span>{{ end }}
-    <h6><a class="stretched-link" href="{{ .RelPermalink }}">{{ .Title }}</a></h5>
-    <span class="card-subtitle mb-2 text-muted">{{ delimit .Params.authors ", " ", and " | markdownify }}</span>
+<li class="list-group-item pt-3 pb-2">
+    {{ with .Params.status }}<span class="float-end badge {{ if eq . "Published"}}text-bg-success{{ else }}text-bg-warning{{end }} ms-2 mb-1 text-muted">{{ . }}</span>{{ end }}
+    <h5><a class="stretched-link" href="{{ .RelPermalink }}">{{ .Title }}</a></h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{ delimit .Params.authors ", " ", and " | markdownify }}</h6>
 </li>

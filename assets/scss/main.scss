@@ -45,7 +45,7 @@ $danger:        {{ .Site.Params.danger_color }};
 @import "bootstrap/card";
 // @import "bootstrap/accordion";
 // @import "bootstrap/breadcrumb";
-// @import "bootstrap/pagination";
+@import "bootstrap/pagination";
 @import "bootstrap/badge";
 // @import "bootstrap/alert";
 // @import "bootstrap/progress";
