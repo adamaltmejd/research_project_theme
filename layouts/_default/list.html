@@ -8,14 +8,16 @@
         <article>
             <h2>Research projects</h2>
             <ul class="list-group">
+                {{ $paginator := .Paginate (where site.RegularPages "Type" "in" site.Params.mainSections) }}
                 {{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
                 {{ if .IsHome }}
-                    {{ range $pages }}{{ .Render "li"}}{{ end }}
+                    {{ range $paginator.Pages }}{{ .Render "li" }}{{ end }}
                 {{ end }}
                 {{ if not .IsHome }}
-                    {{ range $pages }}{{ .Render "summary"}}{{ end }}
+                    {{ range $paginator.Pages }}{{ .Render "summary" }}{{ end }}
                 {{ end }}
             </ul>
+            {{ partial "pagination.html" . }}
         </article>
     </main>
 {{ end }}
