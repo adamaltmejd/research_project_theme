@@ -1,10 +1,12 @@
 <div class="card my-1">
     <div class="card-body">
-        {{ with .Params.status }}<span class="float-end badge {{ if eq . "Published"}}text-bg-success{{ else }}text-bg-warning{{end }} ms-1 mb-1 text-muted">{{ . }}</span>{{ end }}
-        {{ with .Params.paper_url }}<span class="float-end badge text-bg-secondary ms-1 mb-1" style="z-index: 2; position: relative;"><a class="text-muted" href="{{ . }}">Paper available</a></span>{{ end }}
+        <div class="float-end ms-2 justify-content-right">
+            {{ with .Params.status }}<span class="badge {{ if eq . "Published"}}text-bg-success{{ else }}text-bg-warning{{end }} ms-1 mb-1 text-muted">{{ . }}</span>{{ end }}
+            {{ with .Params.paper_url }}<span class="badge text-bg-secondary ms-1 mb-1" style="z-index: 2; position: relative;"><a class="text-muted" href="{{ . }}">Paper available</a></span>{{ end }}
+        </div>
         <h5 class="card-title mb-3">{{ .Title }}</h5>
         <h6 class="card-subtitle mb-2 text-muted">{{ delimit .Params.authors ", " ", and " | markdownify }}</h6>
         <p class="card-text">{{ .Summary }}</p>
     </div>
-    <div class="card-footer"><a class="card-link stretched-link text-muted" href='{{ .RelPermalink }}'><nobr>Read more →</nobr></a><div class="float-end text-muted">Last updated: {{ .Date.Format "Mon, Jan 2, 2006" }}</div></div>
+    <div class="card-footer">Last updated: {{ .Date.Format "Mon, Jan 2, 2006" }}<div class="float-end text-muted"><a class="card-link stretched-link text-muted" href='{{ .RelPermalink }}'><nobr>Read more →</nobr></a></div></div>
 </div>
