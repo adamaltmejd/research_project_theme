@@ -1,8 +1,8 @@
 <div class="card my-1">
     <div class="card-body">
         <div class="float-end ms-2 justify-content-right">
+            {{ with .Params.paper_url }}<span class="badge text-bg-secondary ms-1 mb-1"><a class="text-muted" href="{{ . }}">{{ partial "icon" "pdf" }}</a></span>{{ end }}
             {{ with .Params.status }}<span class="badge {{ if eq . "Published"}}text-bg-success{{ else }}text-bg-warning{{end }} ms-1 mb-1 text-muted">{{ . }}</span>{{ end }}
-            {{ with .Params.paper_url }}<span class="badge text-bg-secondary ms-1 mb-1" style="z-index: 2; position: relative;"><a class="text-muted" href="{{ . }}">Paper available</a></span>{{ end }}
         </div>
         <h5 class="card-title mb-3">{{ .Title }}</h5>
         <h6 class="card-subtitle mb-2 text-muted">{{ delimit .Params.authors ", " ", and " | markdownify }}</h6>
