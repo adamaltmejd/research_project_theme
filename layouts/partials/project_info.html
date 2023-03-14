@@ -3,7 +3,7 @@
         {{ partial "icon" "clock" }} Last updated: {{ .Date.Format "Mon, Jan 2, 2006" }}
         {{- with .Params.status }}<span class="float-end">Status: {{ . }} {{ partial "icon" "progress" }}</span>{{ end -}}
     </li>
-    {{ if isset .Params "paper_url" }}
+    {{ if and (isset .Params "paper_url") (not (eq .Params.paper_url "")) }}
         <li class="list-group-item"><a href="{{ index .Params "paper_url" }}">{{ partial "icon" "pdf" }} Read paper</a></li>
     {{ end }}
     {{ with .Params.authors }}

@@ -1,7 +1,7 @@
 module:
   hugoVersion:
     extended: true
-    min: 0.107.0
+    min: 0.111.3
   imports:
     - path: 'github.com/gohugoio/hugo-mod-bootstrap-scss/v5'
     - path: 'github.com/adamaltmejd/hugo-icons'
