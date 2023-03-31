@@ -3,5 +3,8 @@ github.com/adamaltmejd/hugo-icons v0.0.0-20221021140430-7267d5f8ed27 h1:GkjvRVSw
 github.com/adamaltmejd/hugo-icons v0.0.0-20221021140430-7267d5f8ed27/go.mod h1:jPtm4lPrjOJcxPS6Bay3amRmfnHug4mrLUdspAEJcpI=
 github.com/gohugoio/hugo-mod-bootstrap-scss/v5 v5.20200.20101 h1:wUe8RXjpJYs83CucuWJT7XuqCzQ52f5/N7zlV8woHEg=
 github.com/gohugoio/hugo-mod-bootstrap-scss/v5 v5.20200.20101/go.mod h1:Z5Bhe4pfn8reoHhWqCQMWEAynLCIeBAt1TDwni4fipM=
+github.com/gohugoio/hugo-mod-bootstrap-scss/v5 v5.20300.20001 h1:xkJJPlzmGxKitnbJHlm7ARK7OJvWsglcM0FbzHS2Neg=
+github.com/gohugoio/hugo-mod-bootstrap-scss/v5 v5.20300.20001/go.mod h1:QKCtI6xnS1xr+zaQyVR8KF4Ec1UvErhvsazehZj/MlI=
 github.com/gohugoio/hugo-mod-jslibs-dist/popperjs/v2 v2.21100.20000/go.mod h1:mFberT6ZtcchrsDtfvJM7aAH2bDKLdOnruUHl0hlapI=
 github.com/twbs/bootstrap v5.2.1+incompatible/go.mod h1:fZTSrkpSf0/HkL0IIJzvVspTt1r9zuf7XlZau8kpcY0=
+github.com/twbs/bootstrap v5.3.0-alpha2+incompatible/go.mod h1:fZTSrkpSf0/HkL0IIJzvVspTt1r9zuf7XlZau8kpcY0=

@@ -1,16 +1,13 @@
 <head>
     <title>{{ .Title }}</title>
     <meta charset="utf-8">
-    <meta name="description" content="{{if .IsHome}}{{ .Site.Params.description }}{{else}}{{.Description}}{{end}}" />
+    <meta name="description" content="{{if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Description }}{{ end }}" />
     <meta name="dc.relation" content="{{ .Site.BaseURL }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {{- with .Site.Params.favicon -}}
         <link rel="icon" href="img/{{ . }}.svg">
         <link rel="mask-icon" href="img/{{ . }}.svg" color="{{ $.Site.Params.primary_color }}">
     {{- end -}}
-
-    <!-- Fontawesome -->
-    <script src="https://kit.fontawesome.com/5e1d50737e.js" crossorigin="anonymous"></script>
 
     {{- /* Load Bootstrap SCSS. */ -}}
     {{- $options := dict "enableSourceMap" true -}}
