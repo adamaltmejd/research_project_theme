@@ -1,12 +1,9 @@
 {{ define "main" }}
     <main>
+        <article>
         {{ with.Content }}
-        <article>
             {{ . }}
-        </article>
         {{ end }}
-        <article>
-            <h2>Research projects</h2>
             <ul class="list-group">
                 {{ $paginator := .Paginate (where site.RegularPages "Type" "in" site.Params.mainSections) }}
                 {{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
