@@ -1,0 +1,4 @@
+<div class='alert alert-{{ with .Get "color" }}{{ . }}{{ else }}primary{{ end }}' role="alert">
+    {{ with .Get "title" }}<h4 class="alert-heading">{{ partial "icon" "alert" }} {{ . }}</h4>{{ end }}
+    {{ .Inner }}
+</div>

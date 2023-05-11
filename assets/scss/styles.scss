@@ -14,7 +14,7 @@ body > header {
     margin-bottom: $spacer * 2;
     border-bottom: 3pt solid $primary;
 
-    .site_brand { font-size: 2.2rem; font-weight: 800; text-decoration: none; font-family: $headings-font-family; }
+    .site-brand { font-size: 2.2rem; font-weight: 800; text-decoration: none; font-family: $headings-font-family; }
     #header-subtitle { display: none; }
     @include media-breakpoint-up(md) {
         #header-logo {
@@ -88,4 +88,12 @@ footer#site-footer {
     // width: 1em;
     // height: 1em;
     // vertical-align: -.125em;
+}
+
+.alert {
+    > h1, > h2, > h3, > h4, > h5, > h6 {
+        margin-top: 0;
+        padding-top: 0;
+    }
+    > a { @extend .alert-link; }
 }
