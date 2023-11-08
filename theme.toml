@@ -8,7 +8,7 @@ description = "A theme for my research project sites."
 homepage = "https://adamaltmejd.se/"
 tags = []
 features = []
-min_version = "1.0.11"
+min_version = "1.0.12"
 
 [author]
   name = "Adam Altmejd"

@@ -1,5 +1,5 @@
 <head>
-    <title>{{ .Title }}</title>
+    <title>{{ if .IsHome }}{{ .Title }}{{ else }}{{ .Title }} &ndash; {{ .Site.Title }}{{ end }}</title>
     <meta charset="utf-8">
     <meta name="description" content="{{if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Description }}{{ end }}" />
     <meta name="dc.relation" content="{{ .Site.BaseURL }}" />
