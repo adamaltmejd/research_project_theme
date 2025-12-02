@@ -15,7 +15,7 @@
     {{- $options := dict "enableSourceMap" false "outputStyle" "compressed" -}}
     {{- end -}}
     {{- $sassTemplate := resources.Get "scss/main.scss" -}}
-    {{- $styles := $sassTemplate | resources.ExecuteAsTemplate "css.scss" . | resources.ToCSS $options -}}
+    {{- $styles := $sassTemplate | resources.ExecuteAsTemplate "css.scss" . | css.Sass $options -}}
     {{- if hugo.IsProduction -}}
     {{- $styles = $styles | resources.Minify | resources.Fingerprint -}}
     {{- end -}}
