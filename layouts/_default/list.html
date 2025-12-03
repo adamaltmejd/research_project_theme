@@ -4,17 +4,12 @@
         {{ with.Content }}
             {{ . }}
         {{ end }}
-            <ul class="list-group">
-                {{ $paginator := .Paginate (where site.RegularPages "Type" "in" site.Params.mainSections) }}
-                {{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
-                {{ if .IsHome }}
-                    {{ range $paginator.Pages }}{{ .Render "li" }}{{ end }}
-                {{ end }}
-                {{ if not .IsHome }}
-                    {{ range $paginator.Pages }}{{ .Render "summary" }}{{ end }}
-                {{ end }}
-            </ul>
-            {{ partial "pagination.html" . }}
+            {{- if not .IsHome -}}
+                {{ partial "search.html" . }}
+            <div id="itemList">
+                <div class="text-center text-muted py-4">Loading...</div>
+            </div>
+            {{- end -}}
         </article>
     </main>
 {{ end }}

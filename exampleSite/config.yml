@@ -33,3 +33,9 @@ module:
 
 pagination:
   pagerSize: 10
+
+outputs:
+  section:
+    - html
+    - rss
+    - json

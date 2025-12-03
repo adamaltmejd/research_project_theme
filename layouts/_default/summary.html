@@ -1,4 +1,4 @@
-<div class="card my-1">
+<div class="card my-1" data-status="{{ .Params.status | default "" | lower }}">
     <div class="card-body">
         <div class="float-end ms-2 justify-content-right">
             {{ with .Params.paper_url }}<span class="badge text-bg-secondary ms-1 mb-1"><a class="text-muted" href="{{ . }}">{{ partial "icons/icon" (dict "vendor" "fas" "name" "file-pdf") }}</a></span>{{ end }}

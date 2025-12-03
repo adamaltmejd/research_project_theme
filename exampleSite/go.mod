@@ -1,6 +1,6 @@
 module github.com/adamaltmejd/research_project_theme/exampleSite
 
-go 1.21
+go 1.25
 
 replace github.com/adamaltmejd/research_project_theme => ../
 

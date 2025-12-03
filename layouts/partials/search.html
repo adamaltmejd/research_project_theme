@@ -1,0 +1,13 @@
+{{- if .OutputFormats.Get "json" -}}
+<div id="listControls" class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3" data-index-url="{{ .RelPermalink }}index.json">
+  <div id="statusFilter" class="input-group flex-nowrap w-auto" role="group" aria-label="Filter by status">
+    <span class="input-group-text">Status</span>
+  </div>
+  <div class="input-group" style="max-width: 300px;">
+    <span class="input-group-text">{{ partial "icons/icon" (dict "vendor" "fas" "name" "magnifying-glass") }}</span>
+    <input id="searchInput" type="search" class="form-control" placeholder="Search..." aria-label="Search projects">
+  </div>
+</div>
+{{- $searchbox := resources.Get "js/searchbox.js" | minify | fingerprint -}}
+<script src="{{ $searchbox.RelPermalink }}" defer></script>
+{{- end -}}

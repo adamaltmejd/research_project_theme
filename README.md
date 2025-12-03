@@ -1,5 +1,27 @@
 A Bootstrap 5 based theme that I use for the website <https://swecov.se>.
 
+# Installation
+
+Add the theme as a Hugo module in your `config.yml`:
+
+```yaml
+module:
+  imports:
+    - path: github.com/adamaltmejd/research_project_theme
+```
+
+## Required Configuration
+
+To enable the search functionality on section pages, add the following to your site's `config.yml`:
+
+```yaml
+outputs:
+  section:
+    - html
+    - rss
+    - json
+```
+
 # Settings
 
 To replace the current icons, create a `data/icons.yaml`

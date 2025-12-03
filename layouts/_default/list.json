@@ -1,0 +1,22 @@
+{{- $pages := .Pages -}}
+{{- if .IsHome -}}
+  {{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections -}}
+{{- end -}}
+[
+{{- range $index, $page := $pages -}}
+  {{- if $index }},{{ end }}
+  {
+    "title": {{ $page.Title | jsonify }},
+    "authors": {{ delimit ($page.Params.authors | default slice) ", " | jsonify }},
+    "desc": {{ $page.Summary | plainify | truncate 200 | jsonify }},
+    "content": {{ $page.Plain | jsonify }},
+    "section": {{ $page.Section | jsonify }},
+    "status": {{ $page.Params.status | default "" | jsonify }},
+    "paper_url": {{ $page.Params.paper_url | default "" | jsonify }},
+    "date": {{ $page.Date.Format "2006-01-02" | jsonify }},
+    "date_formatted": {{ $page.Date.Format "Mon, Jan 2, 2006" | jsonify }},
+    "permalink": {{ $page.Permalink | jsonify }},
+    "relpermalink": {{ $page.RelPermalink | jsonify }}
+  }
+{{- end -}}
+]
