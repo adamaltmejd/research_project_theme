@@ -4,4 +4,4 @@ module:
     min: 0.152.2
   imports:
     - path: 'github.com/gohugoio/hugo-mod-bootstrap-scss/v5'
-    - path: 'github.com/adamaltmejd/hugo-icons'
+    - path: 'github.com/hugomods/icons/vendors/font-awesome'
