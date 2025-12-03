@@ -1,6 +1,6 @@
 <li class="list-group-item pt-3 pb-2">
     <div class="float-end ms-2 justify-content-right">
-        {{ with .Params.paper_url }}<span class="badge text-bg-secondary ms-1 mb-1"><a class="text-muted" href="{{ . }}">{{ partial "icon" "pdf" }}</a></span>{{ end }}
+        {{ with .Params.paper_url }}<span class="badge text-bg-secondary ms-1 mb-1"><a class="text-muted" href="{{ . }}">{{ partial "icons/icon" (dict "vendor" "fas" "name" "file-pdf") }}</a></span>{{ end }}
         {{ with .Params.status }}<span class="badge {{ if eq . "Published"}}text-bg-success{{ else }}text-bg-warning{{end }} ms-1 mb-1 text-muted">{{ . }}</span>{{ end }}
     </div>
     <h5><a class="stretched-link" href="{{ .RelPermalink }}">{{ .Title }}</a></h5>

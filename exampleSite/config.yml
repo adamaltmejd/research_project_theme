@@ -1,0 +1,35 @@
+baseURL: 'https://example.com/'
+languageCode: 'en-us'
+
+title: 'Research Project'
+params:
+  institution: 'Example University'
+  subtitle: 'A Research Initiative'
+  description: 'An example research project website built with Hugo.'
+  brand_icon: 'flask'
+  favicon: 'flask'
+  primary_color: '#2c3e50'
+  secondary_color: '#3498db'
+  warning_color: '#f1c40f'
+  success_color: '#27ae60'
+  info_color: '#17a2b8'
+  danger_color: '#e74c3c'
+
+menus:
+  main:
+    - name: Home
+      url: /
+      weight: 10
+    - name: Projects
+      url: /projects/
+      weight: 20
+    - name: About
+      url: /about/
+      weight: 30
+
+module:
+  imports:
+    - path: github.com/adamaltmejd/research_project_theme
+
+pagination:
+  pagerSize: 10
