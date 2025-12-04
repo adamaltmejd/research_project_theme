@@ -3,6 +3,7 @@ title: "Data Privacy in Healthcare"
 date: 2024-03-10
 draft: false
 status: 'Completed'
+subject: 'Privacy'
 paper_url: 'https://example.com/paper.pdf'
 authors:
   - 'Alice Johnson'

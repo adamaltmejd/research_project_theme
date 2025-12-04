@@ -39,7 +39,7 @@ $danger:        {{ .Site.Params.danger_color }};
 @import "bootstrap/forms";
 @import "bootstrap/buttons";
 @import "bootstrap/transitions";
-// @import "bootstrap/dropdown";
+@import "bootstrap/dropdown";
 @import "bootstrap/button-group";
 @import "bootstrap/nav";
 @import "bootstrap/navbar";

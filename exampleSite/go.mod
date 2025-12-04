@@ -5,7 +5,7 @@ go 1.25
 replace github.com/adamaltmejd/research_project_theme => ../
 
 require (
-	github.com/adamaltmejd/research_project_theme v1.0.13 // indirect
+	github.com/adamaltmejd/research_project_theme v1.0.14 // indirect
 	github.com/gohugoio/hugo-mod-bootstrap-scss/v5 v5.20300.20400 // indirect
 	github.com/gohugoio/hugo-mod-jslibs-dist/popperjs/v2 v2.21100.20000 // indirect
 	github.com/hugomods/font-awesome v6.7.1+incompatible // indirect

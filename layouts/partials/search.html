@@ -1,12 +1,21 @@
 {{- if .OutputFormats.Get "json" -}}
-<div id="listControls" class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3" data-index-url="{{ .RelPermalink }}index.json">
-  <div id="statusFilter" class="input-group flex-nowrap w-auto" role="group" aria-label="Filter by status">
-    <span class="input-group-text">Status</span>
+{{- $filters := site.Params.study_filters -}}
+{{- $searchEnabled := site.Params.study_search | default false -}}
+{{- $hasFilters := and $filters (gt (len $filters) 0) -}}
+<div id="listControls" class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3" data-index-url="{{ .RelPermalink }}index.json" data-filters='{{ $filters | jsonify }}' data-search-enabled="{{ $searchEnabled }}">
+  {{- if $hasFilters -}}
+  <div id="filtersContainer" class="d-flex flex-wrap gap-2">
+    {{- range $filters -}}
+    <div class="filter-group btn-group flex-nowrap" data-filter-field="{{ . }}" role="group" aria-label="Filter by {{ . | title }}"></div>
+    {{- end -}}
   </div>
+  {{- end -}}
+  {{- if $searchEnabled -}}
   <div class="input-group" style="max-width: 300px;">
     <span class="input-group-text">{{ partial "icons/icon" (dict "vendor" "fas" "name" "magnifying-glass") }}</span>
     <input id="searchInput" type="search" class="form-control" placeholder="Search..." aria-label="Search projects">
   </div>
+  {{- end -}}
 </div>
 {{- $searchbox := resources.Get "js/searchbox.js" | minify | fingerprint -}}
 <script src="{{ $searchbox.RelPermalink }}" defer></script>

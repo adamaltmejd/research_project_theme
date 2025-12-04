@@ -3,6 +3,7 @@ title: "Climate Modeling Study"
 date: 2024-06-15
 draft: false
 status: 'Ongoing'
+subject: 'Climate'
 summary: 'Either set summary here or using the <!--moore--> key'
 paper_url: ''
 authors:

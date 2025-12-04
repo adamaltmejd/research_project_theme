@@ -12,6 +12,7 @@
     "content": {{ $page.Plain | jsonify }},
     "section": {{ $page.Section | jsonify }},
     "status": {{ $page.Params.status | default "" | jsonify }},
+    "subject": {{ $page.Params.subject | default "" | jsonify }},
     "paper_url": {{ $page.Params.paper_url | default "" | jsonify }},
     "date": {{ $page.Date.Format "2006-01-02" | jsonify }},
     "date_formatted": {{ $page.Date.Format "Mon, Jan 2, 2006" | jsonify }},
