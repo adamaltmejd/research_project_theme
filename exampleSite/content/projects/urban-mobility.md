@@ -5,6 +5,8 @@ draft: false
 status: 'Completed'
 subject: 'Transportation'
 paper_url: 'https://example.com/mobility-paper.pdf'
+journal: 'Journal of Urban Studies'
+publication_date: '2024'
 authors:
   - 'Sarah Martinez'
   - 'Michael Brown'

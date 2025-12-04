@@ -5,6 +5,8 @@ draft: false
 status: 'Completed'
 subject: 'Privacy'
 paper_url: 'https://example.com/paper.pdf'
+journal: 'Journal of Medical Informatics'
+publication_date: '2024-02'
 authors:
   - 'Alice Johnson'
   - 'Bob Williams'
