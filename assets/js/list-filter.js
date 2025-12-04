@@ -1,6 +1,7 @@
 /**
  * List Filter & Search
  * Loads JSON index, renders list items, and provides search + dynamic filtering.
+ * Supports URL query parameters for shareable filter states.
  */
 (function () {
   'use strict';
@@ -13,7 +14,8 @@
     minSearchChars: 3,
     searchFields: ['title', 'authors', 'journal', 'desc', 'content'],
     dropdownThreshold: 2,
-    debounceMs: 200
+    debounceMs: 200,
+    searchParam: 'q'
   };
 
   // =============================================================================
@@ -69,6 +71,66 @@
   function toTitleCase(str) {
     if (!str) return '';
     return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  // =============================================================================
+  // URL State Management
+  // =============================================================================
+
+  /**
+   * Parse URL query parameters into filter state
+   * @returns {{ search: string, filters: Map<string, Set<string>> }}
+   */
+  function parseUrlState(filterFields) {
+    const params = new URLSearchParams(window.location.search);
+    const search = params.get(CONFIG.searchParam) || '';
+    const filters = new Map();
+
+    for (const [key, value] of params) {
+      // Only parse params that match known filter fields
+      if (key !== CONFIG.searchParam && filterFields.has(key)) {
+        if (!filters.has(key)) {
+          filters.set(key, new Set());
+        }
+        // Values are comma-separated
+        value.split(',').forEach(v => {
+          if (v) filters.get(key).add(v.toLowerCase());
+        });
+      }
+    }
+
+    return { search, filters };
+  }
+
+  /**
+   * Update URL with current filter state (without page reload)
+   * @param {Map<string, Set<string>>} selectedFilters
+   * @param {string} searchQuery
+   */
+  function updateUrlState(selectedFilters, searchQuery) {
+    const params = new URLSearchParams();
+
+    // Add search query
+    if (searchQuery && searchQuery.trim().length >= CONFIG.minSearchChars) {
+      params.set(CONFIG.searchParam, searchQuery.trim());
+    }
+
+    // Add filters
+    for (const [field, values] of selectedFilters) {
+      if (values.size > 0) {
+        params.set(field, [...values].join(','));
+      }
+    }
+
+    // Build new URL
+    const newUrl = params.toString()
+      ? `${window.location.pathname}?${params.toString()}`
+      : window.location.pathname;
+
+    // Only push if URL actually changed
+    if (newUrl !== window.location.pathname + window.location.search) {
+      window.history.pushState({}, '', newUrl);
+    }
   }
 
   // =============================================================================
@@ -177,15 +239,19 @@
    * @param {string} field
    * @param {string[]} values
    * @param {Function} onChange
+   * @param {Set<string>} initialSelected - Initially selected values from URL
    */
-  function buildButtonFilter(group, field, values, onChange) {
+  function buildButtonFilter(group, field, values, onChange, initialSelected = new Set()) {
     values.forEach(value => {
       const id = createFilterId(field, value);
+      const valueLower = value.toLowerCase();
+      const isChecked = initialSelected.has(valueLower);
+
       const input = createElement('input', {
         type: 'checkbox',
         id,
-        value: value.toLowerCase(),
-        checked: false,
+        value: valueLower,
+        checked: isChecked,
         className: 'btn-check',
         autocomplete: 'off'
       });
@@ -206,14 +272,20 @@
    * @param {string} field
    * @param {string[]} values
    * @param {Function} onChange
+   * @param {Set<string>} initialSelected - Initially selected values from URL
    */
-  function buildDropdownFilter(group, field, values, onChange) {
+  function buildDropdownFilter(group, field, values, onChange, initialSelected = new Set()) {
     group.className = 'dropdown';
+
+    const selectedCount = initialSelected.size;
+    const buttonText = selectedCount > 0
+      ? `${field.charAt(0).toUpperCase() + field.slice(1)} (${selectedCount})`
+      : field.charAt(0).toUpperCase() + field.slice(1);
 
     const button = createElement('button', {
       className: 'btn btn-outline-primary dropdown-toggle',
       type: 'button',
-      textContent: field.charAt(0).toUpperCase() + field.slice(1)
+      textContent: buttonText
     });
     button.setAttribute('data-bs-toggle', 'dropdown');
     button.setAttribute('data-bs-auto-close', 'outside');
@@ -222,11 +294,14 @@
 
     values.forEach(value => {
       const id = createFilterId(field, value);
+      const valueLower = value.toLowerCase();
+      const isChecked = initialSelected.has(valueLower);
+
       const input = createElement('input', {
         type: 'checkbox',
         id,
-        value: value.toLowerCase(),
-        checked: false,
+        value: valueLower,
+        checked: isChecked,
         className: 'form-check-input'
       });
       const label = createElement('label', {
@@ -235,7 +310,14 @@
         textContent: value
       });
 
-      input.addEventListener('change', () => onChange(field, input.value, input.checked));
+      input.addEventListener('change', () => {
+        onChange(field, input.value, input.checked);
+        // Update button text to show count
+        const checkedCount = ul.querySelectorAll('input:checked').length;
+        button.textContent = checkedCount > 0
+          ? `${field.charAt(0).toUpperCase() + field.slice(1)} (${checkedCount})`
+          : field.charAt(0).toUpperCase() + field.slice(1);
+      });
 
       const li = createElement('li', { className: 'dropdown-item' }, [
         createElement('div', { className: 'form-check' }, [input, label])
@@ -252,8 +334,9 @@
    * @param {Array} items
    * @param {Map} selectedFilters
    * @param {Function} onFilterChange
+   * @param {Map<string, Set<string>>} initialFilters - Initial filter state from URL
    */
-  function buildFilters(container, items, selectedFilters, onFilterChange) {
+  function buildFilters(container, items, selectedFilters, onFilterChange, initialFilters = new Map()) {
     if (!container) return;
 
     container.querySelectorAll('.filter-group').forEach(group => {
@@ -267,8 +350,9 @@
         return;
       }
 
-      // Initialize with no filters selected (shows all items)
-      selectedFilters.set(field, new Set());
+      // Initialize with filters from URL or empty set
+      const initialSet = initialFilters.get(field) || new Set();
+      selectedFilters.set(field, new Set(initialSet));
 
       const onChange = (fieldName, value, isChecked) => {
         const filterSet = selectedFilters.get(fieldName);
@@ -282,9 +366,9 @@
 
       // Choose button group or dropdown based on number of options
       if (values.length > CONFIG.dropdownThreshold) {
-        buildDropdownFilter(group, field, values, onChange);
+        buildDropdownFilter(group, field, values, onChange, initialSet);
       } else {
-        buildButtonFilter(group, field, values, onChange);
+        buildButtonFilter(group, field, values, onChange, initialSet);
       }
     });
   }
@@ -436,11 +520,26 @@
     const searchEnabled = elements.controls.dataset.searchEnabled === 'true';
     const selectedFilters = new Map();
 
+    // Collect known filter fields from the DOM
+    const filterFields = new Set();
+    elements.filtersContainer?.querySelectorAll('.filter-group').forEach(group => {
+      const field = group.dataset.filterField;
+      if (field) filterFields.add(field);
+    });
+
+    // Parse initial state from URL
+    const urlState = parseUrlState(filterFields);
+
     // Apply filters and re-render
-    const applyFilters = () => {
+    const applyFilters = (updateUrl = true) => {
       const searchQuery = elements.searchInput?.value || '';
       const filtered = filterItems(items, selectedFilters, searchQuery, searchEnabled);
       renderItems(elements.itemList, elements.cardTemplate, filtered);
+
+      // Update URL with current state
+      if (updateUrl) {
+        updateUrlState(selectedFilters, searchQuery);
+      }
     };
 
     // Load data
@@ -453,16 +552,55 @@
       return;
     }
 
-    // Build filter UI
-    buildFilters(elements.filtersContainer, items, selectedFilters, applyFilters);
+    // Build filter UI with initial state from URL
+    buildFilters(elements.filtersContainer, items, selectedFilters, applyFilters, urlState.filters);
 
-    // Set up search
+    // Set up search with initial value from URL
     if (searchEnabled) {
+      if (urlState.search) {
+        elements.searchInput.value = urlState.search;
+      }
       setupSearchInput(elements.searchInput, applyFilters);
     }
 
-    // Initial render
-    applyFilters();
+    // Initial render (don't update URL on initial load to avoid replacing entry)
+    applyFilters(false);
+
+    // Handle browser back/forward navigation
+    window.addEventListener('popstate', () => {
+      const newState = parseUrlState(filterFields);
+
+      // Update search input
+      if (elements.searchInput) {
+        elements.searchInput.value = newState.search;
+      }
+
+      // Update filter checkboxes and state
+      for (const [field, values] of selectedFilters) {
+        const newValues = newState.filters.get(field) || new Set();
+        selectedFilters.set(field, new Set(newValues));
+
+        // Update checkbox UI
+        const group = elements.filtersContainer?.querySelector(`[data-filter-field="${field}"]`);
+        if (group) {
+          group.querySelectorAll('input[type="checkbox"]').forEach(input => {
+            input.checked = newValues.has(input.value);
+          });
+
+          // Update dropdown button text if applicable
+          const dropdownBtn = group.querySelector('.dropdown-toggle');
+          if (dropdownBtn) {
+            const checkedCount = newValues.size;
+            dropdownBtn.textContent = checkedCount > 0
+              ? `${field.charAt(0).toUpperCase() + field.slice(1)} (${checkedCount})`
+              : field.charAt(0).toUpperCase() + field.slice(1);
+          }
+        }
+      }
+
+      // Re-render without updating URL
+      applyFilters(false);
+    });
   }
 
   // Start the application
