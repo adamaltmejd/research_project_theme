@@ -215,3 +215,25 @@ footer#site-footer:before {
         }
     }
 }
+
+//
+// List filter controls
+//
+
+#listControls {
+    #searchContainer {
+        flex: 1 1 150px;
+        max-width: 300px;
+    }
+
+    @include media-breakpoint-down(sm) {
+        #filtersContainer,
+        #searchContainer {
+            flex: 1 0 100%;
+            max-width: none;
+        }
+        #filtersContainer {
+            justify-content: space-between;
+        }
+    }
+}
