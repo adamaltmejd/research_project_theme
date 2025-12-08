@@ -4,8 +4,8 @@
     {{- with .Content }}{{ . }}{{ end -}}
 
     {{- if and (not .IsHome) (.OutputFormats.Get "json") -}}
-    {{- $filters := site.Params.study_filters -}}
-    {{- $searchEnabled := site.Params.study_search | default false -}}
+    {{- $filters := site.Params.project_filters -}}
+    {{- $searchEnabled := site.Params.project_search | default false -}}
     {{- $hasFilters := and $filters (gt (len $filters) 0) -}}
 
     {{/* Filter and Search Controls */}}

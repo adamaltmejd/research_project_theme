@@ -14,10 +14,10 @@ params:
   success_color: '#27ae60'
   info_color: '#17a2b8'
   danger_color: '#e74c3c'
-  study_filters:
+  project_filters:
     - 'status'
     - 'subject'
-  study_search: true
+  project_search: true
 
 menus:
   main:
