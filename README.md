@@ -14,7 +14,7 @@ module:
 
 ## "Projects" page
 
-The theme features a special "Projects" section page. For it to work properly, make sure the section is called "projects" (sub-pages should be stored in `content/projects/`). See the example site.
+The theme features a special "Research" section page. For it to work properly, make sure the section is called "research" (sub-pages should be stored in `content/research/`). See the example site.
 
 ## Required Configuration
 

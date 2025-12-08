@@ -1,7 +1,7 @@
 {{ define "main" }}
     <main>
         <article>
-            {{ if eq .Section "projects" }}{{ partial "project_info.html" . }}{{ end }}
+            {{ if eq .Section "research" }}{{ partial "project_info.html" . }}{{ end }}
             <h1>{{ .Title }}</h1>
             {{ .Content }}
         </article>
