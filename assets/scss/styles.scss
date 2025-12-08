@@ -5,6 +5,8 @@
 html {
     // Ensure page does not shift when scrollbar appears.
     overflow-y: scroll;
+    // Smooth scrolling for anchor links
+    scroll-behavior: smooth;
 }
 
 body > header {
@@ -47,9 +49,21 @@ article {
     h1, h2, h3{
         text-align: center;
     }
-    h1 { padding-top: 0; padding-bottom: $spacer * 0.3}
-    h2 { padding-top: $spacer * 1.3; padding-bottom: $spacer * 0.3}
-    h3 { padding-top: $spacer * 1; padding-bottom: $spacer * 0.3}
+    h1 { padding-top: 0; padding-bottom: $spacer * 0.3; }
+    h1:not(:first-of-type):before {
+        content:' ';
+        display: block;
+        margin-bottom: $spacer * 1.6;
+        border-top: 3pt solid $primary;
+        border-radius: 4px;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    }
+    h2 { padding-top: $spacer * 1.3; padding-bottom: $spacer * 0.2 }
+    h3 { padding-top: $spacer * 1; padding-bottom: $spacer * 0.2 }
     h5 { text-align: left; font-weight: 700; }
     h6 { text-align: left; font-weight: 400; }
 
@@ -72,9 +86,19 @@ article {
 }
 
 footer#site-footer {
-    border-top: 3pt solid $primary;
     margin-top: $spacer * 2;
     margin-bottom: $spacer * 4;
+}
+footer#site-footer:before {
+    content: ' ';
+    display: block;
+    border-top: 3pt solid $primary;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
 }
 
 .hi-svg-inline {
@@ -84,10 +108,6 @@ footer#site-footer {
     height: 1.05em;
     width: 1.05em;
     vertical-align: -0.19em;
-    // FA recommendations
-    // width: 1em;
-    // height: 1em;
-    // vertical-align: -.125em;
 }
 
 .alert {
@@ -96,4 +116,102 @@ footer#site-footer {
         padding-top: 0;
     }
     > a { @extend .alert-link; }
+}
+
+//
+// Side navigation styles
+//
+
+#side-nav {
+    .nav-link {
+        font-family: $headings-font-family;
+        font-size: $font-size-sm;
+        font-weight: 600;
+        color: $body-color;
+        background: transparent;
+        &:hover, &.active { color: $primary; }
+    }
+
+    .nav-nested {
+        display: none;
+        .nav-link {
+            font-weight: 400;
+            font-size: $font-size-sm * 0.9;
+        }
+    }
+}
+
+// Mobile: sticky horizontal nav
+.side-nav-container {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    background: $body-bg;
+    margin-bottom: $spacer;
+    padding: $spacer * 0.25 0;
+    border-bottom: 1px solid rgba($body-color, 0.15);
+
+    #side-nav {
+        flex-flow: row wrap;
+        justify-content: center;
+        gap: $spacer * 0.15;
+
+        .nav-link {
+            padding: $spacer * 0.15 $spacer * 0.4;
+            border: 1px solid transparent;
+            border-radius: $spacer * 0.2;
+            &:hover { border-color: rgba($primary, 0.3); }
+            &.active {
+                border-color: $primary;
+                background: rgba($primary, 0.05);
+            }
+        }
+    }
+}
+
+// Desktop: sticky side nav
+@include media-breakpoint-up(lg) {
+    main.has-side-nav {
+        display: flex;
+        gap: $spacer * 2;
+
+        .side-nav-container {
+            position: static;
+            flex: 0 0 180px;
+            margin-left: -200px;
+            padding: 0;
+            border: none;
+            background: transparent;
+        }
+
+        > article {
+            flex: 1;
+            min-width: 0;
+        }
+    }
+
+    .side-nav-container #side-nav {
+        position: sticky;
+        top: $spacer * 2;
+        flex-direction: column;
+
+        .nav-link {
+            padding: $spacer * 0.4 $spacer * 0.75;
+            border: none;
+            border-left: 3px solid transparent;
+            border-radius: 0;
+            &.active { border-left-color: $primary; }
+        }
+
+        .nav-nested {
+            display: flex;
+            flex-direction: column;
+            padding-left: $spacer * 0.5;
+            .nav-link { border-left-width: 2px; }
+        }
+
+        &.js-enabled .nav-nested:not(.expanded) {
+            display: none;
+        }
+    }
 }

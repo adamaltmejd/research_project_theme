@@ -8,23 +8,27 @@ params:
   description: 'An example research project website built with Hugo.'
   brand_icon: 'flask'
   favicon: 'flask'
-  primary_color: '#2c3e50'
-  secondary_color: '#3498db'
+  primary_color: '#16334f'
+  secondary_color: '#a281cf'
   warning_color: '#f1c40f'
   success_color: '#27ae60'
-  info_color: '#17a2b8'
+  info_color: '#c6c6c6ff'
   danger_color: '#e74c3c'
+  project_filters:
+    - 'status'
+    - 'subject'
+  project_search: true
 
 menus:
   main:
     - name: Home
-      url: /
+      pageRef: '/'
       weight: 10
-    - name: Projects
-      url: /projects/
+    - name: Research
+      pageRef: '/research'
       weight: 20
     - name: About
-      url: /about/
+      pageRef: '/about'
       weight: 30
 
 module:
@@ -33,3 +37,9 @@ module:
 
 pagination:
   pagerSize: 10
+
+outputs:
+  section:
+    - html
+    - rss
+    - json

@@ -1,0 +1,149 @@
+{{ define "main" }}
+<main>
+  <article>
+    {{- with .Content }}{{ . }}{{ end -}}
+
+    {{- if not .IsHome -}}
+    {{- $hasJson := .OutputFormats.Get "json" -}}
+    {{- $filters := site.Params.project_filters -}}
+    {{- $searchEnabled := site.Params.project_search | default false -}}
+    {{- $hasFilters := and $filters (gt (len $filters) 0) -}}
+
+    {{- if $hasJson -}}
+    {{/* Filter and Search Controls - hidden when JS disabled via noscript style */}}
+    <noscript><style>#listControls { display: none !important; }</style></noscript>
+    <div id="listControls"
+         class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3"
+         data-index-url="{{ .RelPermalink }}index.json"
+         data-search-enabled="{{ $searchEnabled }}">
+
+      {{- if $hasFilters -}}
+      <div id="filtersContainer" class="d-flex flex-wrap gap-2">
+        {{- range $filters -}}
+        <div class="filter-group btn-group flex-nowrap"
+             data-filter-field="{{ . }}"
+             role="group"
+             aria-label="Filter by {{ . | title }}">
+        </div>
+        {{- end -}}
+      </div>
+      {{- end -}}
+
+      {{- if $searchEnabled -}}
+      <div class="input-group" style="max-width: 300px;">
+        <span class="input-group-text">
+          {{- partial "icons/icon" (dict "vendor" "fas" "name" "magnifying-glass") -}}
+        </span>
+        <input id="searchInput"
+               type="search"
+               class="form-control"
+               placeholder="Search..."
+               aria-label="Search">
+      </div>
+      {{- end -}}
+    </div>
+    {{- end -}}
+
+    {{/* Item List Container */}}
+    <div id="itemList">
+      {{/* Server-side rendered list - shown when JS disabled or JSON not available */}}
+      {{- if $hasJson -}}<noscript>{{- end -}}
+        {{- range .Pages -}}
+        {{- $pubDateRaw := .Params.publication_date | default "" | string -}}
+        {{- $pubDateFormatted := "" -}}
+        {{- with $pubDateRaw -}}
+          {{- $parts := split . "-" -}}
+          {{- $year := index $parts 0 -}}
+          {{- if and (ge (len $parts) 2) (index $parts 1) -}}
+            {{- $monthNum := index $parts 1 -}}
+            {{- $monthDate := time (printf "2006-%s-01" $monthNum) -}}
+            {{- $pubDateFormatted = printf "%s %s" ($monthDate.Format "January") $year -}}
+          {{- else -}}
+            {{- $pubDateFormatted = $year -}}
+          {{- end -}}
+        {{- end -}}
+        <div class="card my-3">
+          <div class="card-header py-1 small">
+            <div class="float-end ms-2 mb-1">
+              {{- with .Params.paper_url -}}
+              <a class="badge text-bg-secondary ms-1"
+                 style="position: relative; z-index: 2;"
+                 href="{{ . }}"
+                 title="View paper"
+                 target="_blank"
+                 rel="noopener">
+                {{- partial "icons/icon" (dict "vendor" "fas" "name" "file-pdf") -}}
+              </a>
+              {{- end -}}
+              {{- with .Params.status -}}
+              <span class="badge ms-1 {{ if eq . "Published" }}text-bg-success{{ else }}text-bg-warning{{ end }}">{{ . }}</span>
+              {{- end -}}
+            </div>
+            {{- with .Params.journal -}}
+            <span class="text-muted fst-italic">{{ . }}{{ with $pubDateFormatted }}, {{ . }}{{ end }}</span>
+            {{- end -}}
+          </div>
+          <div class="card-body">
+            <h5 class="card-title mb-2">{{ .Title }}</h5>
+            <h6 class="card-subtitle mb-1 text-muted">{{ delimit (.Params.authors | default slice) ", " }}</h6>
+            <p class="card-text">{{ .Summary }}</p>
+          </div>
+          <div class="card-footer text-muted small py-1">
+            <span>Last updated: {{ .Date.Format "Mon, Jan 2, 2006" }}</span>
+            <div class="float-end text-muted">
+              <a class="card-link stretched-link text-muted" href="{{ .RelPermalink }}">
+                <nobr>Read more →</nobr>
+              </a>
+            </div>
+          </div>
+        </div>
+        {{- end -}}
+      {{- if $hasJson -}}</noscript>{{- end -}}
+    </div>
+
+    {{- if $hasJson -}}
+    {{/* Card Template */}}
+    <template id="cardTemplate">
+      <div class="card my-3">
+        <div class="card-header py-1 small">
+          <div class="float-end ms-2 mb-1" data-field="badges">
+            <a class="badge text-bg-secondary ms-1"
+               style="position: relative; z-index: 2;"
+               data-field="paper"
+               title="View paper"
+               target="_blank"
+               rel="noopener"
+               hidden>
+              {{- partial "icons/icon" (dict "vendor" "fas" "name" "file-pdf") -}}
+            </a>
+            <span class="badge ms-1" data-field="status" hidden></span>
+          </div>
+          <span class="text-muted fst-italic" data-field="journal" hidden></span>
+        </div>
+        <div class="card-body">
+          {{/* Card Content */}}
+          <h5 class="card-title mb-2" data-field="title"></h5>
+          <h6 class="card-subtitle mb-1 text-muted" data-field="authors"></h6>
+          <p class="card-text" data-field="desc"></p>
+        </div>
+
+        {{/* Card Footer */}}
+        <div class="card-footer text-muted small py-1">
+          <span data-field="date"></span>
+          <div class="float-end text-muted">
+            <a class="card-link stretched-link text-muted" data-field="link">
+              <nobr>Read more →</nobr>
+            </a>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    {{- $listFilter := resources.Get "js/list-filter.js" | minify | fingerprint -}}
+    <script src="{{ $listFilter.RelPermalink }}" defer></script>
+    {{- end -}}
+    {{- end -}}
+    {{- partial "footer.html" . -}}
+  </article>
+</main>
+{{ end }}

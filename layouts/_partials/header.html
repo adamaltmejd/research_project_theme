@@ -19,8 +19,9 @@
                     <ul class="navbar-nav mx-auto">
                         {{ $currentPage := . }}
                         {{ range .Site.Menus.main.ByWeight }}
+                        {{- $isActive := or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) (eq $currentPage.RelPermalink .URL) -}}
                         <li class="nav-item text-center">
-                            <a class="nav-link px-md-3 py-1 py-md-0 {{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }} active link-info{{ else }} link-primary{{end}}" href="{{ .URL }}" title="{{ .Title }}">{{ .Name }}</a>
+                            <a class="nav-link px-md-3 py-1 py-md-0 {{ if $isActive }} active link-info{{ else }} link-primary{{ end }}" href="{{ .URL }}" title="{{ .Title }}">{{ .Name }}</a>
                         </li>
                         {{ end }}
                     </ul>

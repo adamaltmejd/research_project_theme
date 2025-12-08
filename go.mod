@@ -1,6 +1,6 @@
 module github.com/adamaltmejd/research_project_theme
 
-go 1.20
+go 1.25
 
 require (
 	github.com/gohugoio/hugo-mod-bootstrap-scss/v5 v5.20300.20400 // indirect

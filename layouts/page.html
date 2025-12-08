@@ -1,0 +1,17 @@
+{{ define "main" }}
+    {{- /* Count h1 and h2 headings with id attributes */ -}}
+    {{- $headings := findRE `<h[12][^>]*id="[^"]+"[^>]*>` .Content -}}
+    {{- $hasSideNav := and .Params.side_nav (gt (len $headings) 1) -}}
+    <main{{ if $hasSideNav }} class="has-side-nav"{{ end }}>
+        {{- if $hasSideNav -}}
+        <aside class="side-nav-container">
+            {{ partial "side_nav.html" . }}
+        </aside>
+        {{- end -}}
+        <article>
+            {{ if or (eq .Section "research") (eq .Section "projects") }}{{ partial "project_info.html" . }}{{ end }}
+            {{ .Content }}
+            {{- partial "footer.html" . -}}
+        </article>
+    </main>
+{{ end }}

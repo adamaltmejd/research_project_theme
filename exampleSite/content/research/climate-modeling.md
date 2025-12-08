@@ -3,11 +3,12 @@ title: "Climate Modeling Study"
 date: 2024-06-15
 draft: false
 status: 'Ongoing'
+subject: ['Climate', 'Energy']
 summary: 'Either set summary here or using the <!--moore--> key'
 paper_url: ''
 authors:
-  - 'Jane Smith'
-  - 'John Doe'
+  - Jane Smith
+  - John Doe
 ---
 
 This project focuses on developing new climate models to better predict long-term weather patterns.
