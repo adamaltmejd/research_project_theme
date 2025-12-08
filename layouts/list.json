@@ -2,13 +2,13 @@
   JSON index for list pages.
   Used by list-filter.js for client-side filtering and search.
 */}}
-{{- $pages := .Pages -}}
+{{- $pages := .Pages.ByDate.Reverse -}}
 {{- if .IsHome -}}
-  {{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections -}}
+  {{- $pages = (where site.RegularPages "Type" "in" site.Params.mainSections).ByDate.Reverse -}}
 {{- end -}}
 [
 {{- range $index, $page := $pages -}}
-  {{- if $index }},{{ end }}
+  {{- if $index }},{{ end -}}
   {{- /* Parse publication_date (supports "YYYY" or "YYYY-MM" formats) */ -}}
   {{- $pubDateRaw := $page.Params.publication_date | default "" | string -}}
   {{- $pubDateFormatted := "" -}}
@@ -34,8 +34,10 @@
     "subject": {{ with $page.Params.subject }}{{ if reflect.IsSlice . }}{{ . | jsonify }}{{ else }}[{{ . | jsonify }}]{{ end }}{{ else }}[]{{ end }},
     "paper_url": {{ $page.Params.paper_url | default "" | jsonify }},
     "section": {{ $page.Section | jsonify }},
-    "date": {{ $page.Date.Format "2006-01-02" | jsonify }},
-    "date_formatted": {{ $page.Date.Format "Mon, Jan 2, 2006" | jsonify }},
+    "date": {{ $page.Date | time.Format "2006-01-02" | jsonify }},
+    "date_formatted": {{ $page.Date | time.Format "Mon, Jan 2, 2006" | jsonify }},
+    "lastmod": {{ $page.Lastmod | time.Format "2006-01-02" | jsonify }},
+    "lastmod_formatted": {{ $page.Lastmod | time.Format "Mon, Jan 2, 2006" | jsonify }},
     "permalink": {{ $page.Permalink | jsonify }},
     "relpermalink": {{ $page.RelPermalink | jsonify }}
   }

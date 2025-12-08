@@ -151,7 +151,7 @@
     field('title').textContent = item.title || '';
     field('authors').textContent = item.authors || '';
     field('desc').textContent = item.desc || '';
-    field('date').textContent = item.date_formatted ? `Last updated: ${item.date_formatted}` : '';
+    field('date').textContent = item.lastmod_formatted ? `Last updated: ${item.lastmod_formatted}` : '';
     field('link').href = item.relpermalink || '#';
 
     // Optional: journal

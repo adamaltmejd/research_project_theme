@@ -13,14 +13,14 @@
     {{/* Filter and Search Controls - hidden when JS disabled via noscript style */}}
     <noscript><style>#listControls { display: none !important; }</style></noscript>
     <div id="listControls"
-         class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3"
+         class="d-flex flex-wrap flex-sm-nowrap align-items-center justify-content-between gap-3 mb-3"
          data-index-url="{{ .RelPermalink }}index.json"
          data-search-enabled="{{ $searchEnabled }}">
 
       {{- if $hasFilters -}}
       <div id="filtersContainer" class="d-flex flex-wrap gap-2">
         {{- range $filters -}}
-        <div class="filter-group btn-group flex-nowrap"
+        <div class="filter-group btn-group"
              data-filter-field="{{ . }}"
              role="group"
              aria-label="Filter by {{ . | title }}">
@@ -30,7 +30,7 @@
       {{- end -}}
 
       {{- if $searchEnabled -}}
-      <div class="input-group" style="max-width: 300px;">
+      <div id="searchContainer" class="input-group">
         <span class="input-group-text">
           {{- partial "icons/icon" (dict "vendor" "fas" "name" "magnifying-glass") -}}
         </span>
@@ -48,7 +48,7 @@
     <div id="itemList">
       {{/* Server-side rendered list - shown when JS disabled or JSON not available */}}
       {{- if $hasJson -}}<noscript>{{- end -}}
-        {{- range .Pages -}}
+        {{- range .Pages.ByDate.Reverse -}}
         {{- $pubDateRaw := .Params.publication_date | default "" | string -}}
         {{- $pubDateFormatted := "" -}}
         {{- with $pubDateRaw -}}
@@ -89,7 +89,7 @@
             <p class="card-text">{{ .Summary }}</p>
           </div>
           <div class="card-footer text-muted small py-1">
-            <span>Last updated: {{ .Date.Format "Mon, Jan 2, 2006" }}</span>
+            <span>Last updated: {{ .Lastmod.Format "Jan 2, 2006" }}</span>
             <div class="float-end text-muted">
               <a class="card-link stretched-link text-muted" href="{{ .RelPermalink }}">
                 <nobr>Read more →</nobr>
