@@ -10,6 +10,12 @@ module:
     - path: github.com/adamaltmejd/research_project_theme
 ```
 
+# Features
+
+## "Projects" page
+
+The theme features a special "Projects" section page. For it to work properly, make sure the section is called "projects" (sub-pages should be stored in `content/projects/`). See the example site.
+
 ## Required Configuration
 
 To enable the search functionality on section pages, add the following to your site's `config.yml`:

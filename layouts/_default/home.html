@@ -1,0 +1,33 @@
+{{ define "main" }}
+    <main>
+        <article>
+            {{ .Content }}
+            {{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+            {{ $published := where $pages ".Params.status" "Published" }}
+            {{ $sorted := sort $published ".Params.publication_date" "desc" }}
+            {{ with first 5 $sorted }}
+            <h2>Latest publications</h2>
+            <div class="list-group">
+            {{ range . }}
+              <a href="{{ .RelPermalink }}" class="list-group-item list-group-item-action flex-column align-items-start">
+                <h5 class="text-muted mb-1">{{ .Title }}</h5>
+                <p class="mb-1 text-muted">{{ delimit .Params.authors ", " ", and " | markdownify }}</p>
+                <small class="text-muted">
+                  {{- with .Params.journal }}{{ . }}{{ end -}}
+                  {{- with .Params.publication_date -}}
+                    {{- $date := . -}}
+                    {{- $dateStr := printf "%v" $date -}}
+                    {{- if eq (len $dateStr) 4 -}}
+                      , {{ $dateStr }}
+                    {{- else -}}
+                      , {{ time.Format "January 2006" (time $date) }}
+                    {{- end -}}
+                  {{- end -}}
+                </small>
+              </a>
+            {{ end }}
+            </div>
+            {{ end }}
+        </article>
+    </main>
+{{ end }}
