@@ -48,7 +48,7 @@
     {{/* Card Template */}}
     <template id="cardTemplate">
       <div class="card my-3">
-        <div class="card-header py-1">
+        <div class="card-header py-1 small">
           <div class="float-end ms-2 mb-1" data-field="badges">
             <a class="badge text-bg-secondary ms-1"
                style="position: relative; z-index: 2;"
@@ -65,8 +65,8 @@
         </div>
         <div class="card-body">
           {{/* Card Content */}}
-          <h5 class="card-title mb-3" data-field="title"></h5>
-          <h6 class="card-subtitle mb-2 text-muted" data-field="authors"></h6>
+          <h5 class="card-title mb-2" data-field="title"></h5>
+          <h6 class="card-subtitle mb-1 text-muted" data-field="authors"></h6>
           <p class="card-text" data-field="desc"></p>
         </div>
 
@@ -85,6 +85,7 @@
     {{- $listFilter := resources.Get "js/list-filter.js" | minify | fingerprint -}}
     <script src="{{ $listFilter.RelPermalink }}" defer></script>
     {{- end -}}
+    {{- partial "footer.html" . -}}
   </article>
 </main>
 {{ end }}

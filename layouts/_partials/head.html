@@ -31,4 +31,14 @@
     {{- $js = $js | resources.Minify | resources.Fingerprint -}}
     {{- end -}}
     <script src="{{ $js.RelPermalink }}" {{- if hugo.IsProduction -}}integrity="{{ $js.Data.Integrity }}"{{- end }} defer></script>
+
+    {{- /* Load side-nav JS when side_nav is enabled. */ -}}
+    {{- if .Params.side_nav -}}
+    {{- $sideNavJs := resources.Get "js/side-nav.js" -}}
+    {{- $sideNavJs = $sideNavJs | js.Build $opts -}}
+    {{- if hugo.IsProduction -}}
+    {{- $sideNavJs = $sideNavJs | resources.Minify | resources.Fingerprint -}}
+    {{- end -}}
+    <script src="{{ $sideNavJs.RelPermalink }}" {{- if hugo.IsProduction -}}integrity="{{ $sideNavJs.Data.Integrity }}"{{- end }} defer></script>
+    {{- end -}}
 </head>

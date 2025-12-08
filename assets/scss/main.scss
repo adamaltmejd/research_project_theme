@@ -5,6 +5,7 @@ $warning:       {{ .Site.Params.warning_color }};
 $success:       {{ .Site.Params.success_color }};
 $info:          {{ .Site.Params.info_color }};
 $danger:        {{ .Site.Params.danger_color }};
+
 // Custom.scss
 // Option B: Include parts of Bootstrap
 

@@ -6,13 +6,13 @@
             {{ $published := where $pages ".Params.status" "Published" }}
             {{ $sorted := sort $published ".Params.publication_date" "desc" }}
             {{ with first 5 $sorted }}
-            <h2>Latest publications</h2>
+            <h1>Latest publications</h1>
             <div class="list-group">
             {{ range . }}
               <a href="{{ .RelPermalink }}" class="list-group-item list-group-item-action flex-column align-items-start">
-                <h5 class="text-muted mb-1">{{ .Title }}</h5>
-                <p class="mb-1 text-muted">{{ delimit .Params.authors ", " ", and " | markdownify }}</p>
-                <small class="text-muted">
+                <h5 class="mb-0">{{ .Title }}</h5>
+                <p class="mb-0 small">{{ delimit .Params.authors ", " ", and " | markdownify }}</p>
+                <small>
                   {{- with .Params.journal }}{{ . }}{{ end -}}
                   {{- with .Params.publication_date -}}
                     {{- $date := . -}}
@@ -28,6 +28,7 @@
             {{ end }}
             </div>
             {{ end }}
+            {{- partial "footer.html" . -}}
         </article>
     </main>
 {{ end }}

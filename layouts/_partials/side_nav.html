@@ -1,0 +1,24 @@
+{{- /* Side navigation for pages with multiple h1/h2 headings with IDs */ -}}
+{{- $headings := findRE `<h([12])[^>]*id="([^"]+)"[^>]*>[^<]*` .Content -}}
+
+{{- if gt (len $headings) 1 -}}
+<nav id="side-nav" class="nav">
+    {{- $inH2Group := false -}}
+    {{- range $heading := $headings -}}
+        {{- $level := replaceRE `<h([12])[^>]*id="[^"]+"[^>]*>[^<]*` "$1" $heading -}}
+        {{- $id := replaceRE `<h[12][^>]*id="([^"]+)"[^>]*>[^<]*` "$1" $heading -}}
+        {{- $text := replaceRE `<h[12][^>]*id="[^"]+"[^>]*>([^<]*)` "$1" $heading | strings.TrimSpace -}}
+        {{- if not $text }}{{ $text = $id | humanize | title }}{{ end -}}
+        {{- if eq $level "1" -}}
+            {{- if $inH2Group }}</nav>{{ end -}}
+            {{- $inH2Group = false -}}
+            <a class="nav-link" href="#{{ $id }}">{{ $text }}</a>
+        {{- else -}}
+            {{- if not $inH2Group }}<nav class="nav nav-nested">{{ end -}}
+            {{- $inH2Group = true -}}
+            <a class="nav-link" href="#{{ $id }}">{{ $text }}</a>
+        {{- end -}}
+    {{- end -}}
+    {{- if $inH2Group }}</nav>{{ end -}}
+</nav>
+{{- end -}}

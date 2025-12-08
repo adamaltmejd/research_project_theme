@@ -13,3 +13,5 @@ import Dropdown from 'js/bootstrap/src/dropdown'
 // import Tab from 'js/bootstrap/src/tab'
 // import Toast from 'js/bootstrap/src/toast'
 // import Tooltip from 'js/bootstrap/src/tooltip'
+
+export default { Button, Collapse, Dropdown }
