@@ -512,6 +512,9 @@
       return;
     }
 
+    // Show loading indicator (replaces noscript content)
+    elements.itemList.innerHTML = '<div class="text-center text-muted py-4">Loading...</div>';
+
     const indexUrl = elements.controls.dataset.indexUrl;
     if (!indexUrl) {
       return;

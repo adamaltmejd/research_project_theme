@@ -26,7 +26,7 @@
   {
     "title": {{ $page.Title | htmlUnescape | jsonify }},
     "authors": {{ delimit ($page.Params.authors | default slice) ", " | jsonify }},
-    "desc": {{ $page.Summary | plainify | htmlUnescape | truncate 200 | jsonify }},
+    "desc": {{ $page.Summary | plainify | htmlUnescape | jsonify }},
     "content": {{ $page.Plain | htmlUnescape | jsonify }},
     "journal": {{ $page.Params.journal | default "" | jsonify }},
     "publication_date": {{ $pubDateFormatted | jsonify }},

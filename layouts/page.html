@@ -9,7 +9,7 @@
         </aside>
         {{- end -}}
         <article>
-            {{ if eq .Section "research" }}{{ partial "project_info.html" . }}{{ end }}
+            {{ if or (eq .Section "research") (eq .Section "projects") }}{{ partial "project_info.html" . }}{{ end }}
             {{ .Content }}
             {{- partial "footer.html" . -}}
         </article>
