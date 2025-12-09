@@ -6,20 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
     sideNav.classList.add('js-enabled')
 
     const sideNavContainer = sideNav.closest('.side-nav-container')
-    const desktopQuery = window.matchMedia('(min-width: 992px)') // matches Bootstrap lg breakpoint
+    const lgWindow = window.matchMedia('(min-width: 992px)') // matches Bootstrap lg breakpoint
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 
+    let scrollOffset = 0
     const setScrollOffset = () => {
-        // Mobile: offset by the sticky top nav height; Desktop: no offset needed
-        const mobileGap = 12
-        const offset = desktopQuery.matches
-            ? 0
-            : (sideNavContainer?.offsetHeight || 0) + mobileGap
-
+        const gap = parseFloat(getComputedStyle(document.documentElement).fontSize) * 0.75 || 12
+        const offset = lgWindow.matches ? gap : gap + sideNav.getBoundingClientRect().height
         scrollOffset = offset
         document.documentElement.style.setProperty('--side-nav-offset', `${offset}px`)
     }
-
-    let scrollOffset = 0
     setScrollOffset()
 
     // Build list of sections from nav links
@@ -28,8 +24,19 @@ document.addEventListener('DOMContentLoaded', () => {
         .filter(s => s.el)
 
     const update = () => {
-        const scrollY = window.scrollY + scrollOffset
-        const current = sections.findLast(s => s.el.offsetTop <= scrollY)
+        if (!sections.length) return
+
+        const scrollY = window.scrollY + scrollOffset + 1
+        let current = sections[0]
+
+        for (const section of sections) {
+            const top = section.el.getBoundingClientRect().top + window.scrollY
+            if (top <= scrollY) {
+                current = section
+            } else {
+                break
+            }
+        }
 
         // Clear all states
         sideNav.querySelectorAll('.active, .expanded').forEach(el => {
@@ -65,7 +72,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.addEventListener('resize', recalcOffset)
-    desktopQuery.addEventListener('change', recalcOffset)
+    lgWindow.addEventListener('change', recalcOffset)
+    window.addEventListener('load', recalcOffset)
+
+    if (sideNavContainer && 'ResizeObserver' in window) {
+        const resizeObserver = new ResizeObserver(() => recalcOffset())
+        resizeObserver.observe(sideNavContainer)
+    }
 
     const scrollToSection = (id, behavior = 'smooth') => {
         const target = document.getElementById(id)
@@ -75,24 +88,26 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo({ top, behavior })
     }
 
-    // On small screens, Safari can ignore scroll-margin for in-page anchors.
-    // Manually adjust scroll position when clicking the side nav.
-    sideNav.addEventListener('click', event => {
-        if (desktopQuery.matches) return
+    // Handle nav link clicks to apply the computed offset consistently across browsers.
+    sideNav.querySelectorAll('.nav-link').forEach(link => {
+        const id = link.hash?.slice(1)
+        if (!id) return
 
-        const link = event.target.closest('.nav-link')
-        if (!link || !sideNav.contains(link)) return
-
-        const targetId = link.hash?.slice(1)
-        if (!targetId) return
-
-        event.preventDefault()
-        scrollToSection(targetId)
-        history.replaceState(null, '', `#${targetId}`)
+        link.addEventListener('click', event => {
+            event.preventDefault()
+            recalcOffset()
+            const behavior = prefersReducedMotion.matches ? 'auto' : 'smooth'
+            scrollToSection(id, behavior)
+            if (history.replaceState) {
+                history.replaceState(null, '', `#${id}`)
+            }
+        })
     })
 
-    if (window.location.hash && !desktopQuery.matches) {
-        scrollToSection(window.location.hash.slice(1), 'auto')
+    // If we land on the page with a hash, align it using the computed offset.
+    if (location.hash?.length > 1) {
+        const id = location.hash.slice(1)
+        requestAnimationFrame(() => scrollToSection(id, 'auto'))
     }
 
     update()

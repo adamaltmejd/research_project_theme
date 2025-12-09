@@ -2,11 +2,20 @@
 // Global theme styling
 //
 
+:root {
+    --side-nav-offset: 0px;
+}
+
 html {
     // Ensure page does not shift when scrollbar appears.
     overflow-y: scroll;
     // Smooth scrolling for anchor links
     scroll-behavior: smooth;
+    scroll-padding-top: 0;
+}
+
+@include media-breakpoint-down(lg) {
+    html { scroll-padding-top: var(--side-nav-offset, 0px); }
 }
 
 body > header {
@@ -86,8 +95,8 @@ article {
 }
 
 footer#site-footer {
-    margin-top: $spacer * 2;
-    margin-bottom: $spacer * 4;
+    margin-top: $spacer * 1;
+    margin-bottom: $spacer * 3;
 }
 footer#site-footer:before {
     content: ' ';
@@ -138,6 +147,13 @@ footer#site-footer:before {
             font-weight: 400;
             font-size: $font-size-sm * 0.9;
         }
+    }
+}
+
+main.has-side-nav {
+    h1[id],
+    h2[id] {
+        scroll-margin-top: var(--side-nav-offset, 0px);
     }
 }
 

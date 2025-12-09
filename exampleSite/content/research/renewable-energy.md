@@ -1,7 +1,5 @@
 ---
 title: "Renewable Energy Integration"
-date: 2024-08-20
-draft: false
 status: 'Ongoing'
 subject: 'Energy'
 paper_url: ''

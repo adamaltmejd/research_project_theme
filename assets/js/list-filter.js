@@ -151,14 +151,14 @@
     field('title').textContent = item.title || '';
     field('authors').textContent = item.authors || '';
     field('desc').textContent = item.desc || '';
-    field('date').textContent = item.lastmod_formatted ? `Last updated: ${item.lastmod_formatted}` : '';
+    field('lastmod').textContent = item.lastmod_formatted ? `Last updated: ${item.lastmod_formatted}` : '';
     field('link').href = item.relpermalink || '#';
 
     // Optional: journal
     const journalEl = field('journal');
     if (journalEl && item.journal) {
-      journalEl.textContent = item.publication_date
-        ? `${item.journal}, ${item.publication_date}`
+      journalEl.textContent = item.date_formatted
+        ? `${item.journal}, ${item.date_formatted}`
         : item.journal;
       journalEl.hidden = false;
     }
