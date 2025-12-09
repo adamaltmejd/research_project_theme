@@ -9,29 +9,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const lgWindow = window.matchMedia('(min-width: 992px)') // matches Bootstrap lg breakpoint
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 
+    const navLinks = [...sideNav.querySelectorAll('.nav-link')]
+
     let scrollOffset = 0
     const setScrollOffset = () => {
         const gap = parseFloat(getComputedStyle(document.documentElement).fontSize) * 0.75 || 12
-        const offset = lgWindow.matches ? gap : gap + sideNav.getBoundingClientRect().height
+        const navHeight = sideNavContainer?.offsetHeight || sideNav.offsetHeight || 0
+        const offset = lgWindow.matches ? gap : gap + navHeight
         scrollOffset = offset
         document.documentElement.style.setProperty('--side-nav-offset', `${offset}px`)
     }
-    setScrollOffset()
 
-    // Build list of sections from nav links
-    const sections = [...sideNav.querySelectorAll('.nav-link')]
-        .map(link => ({ el: document.getElementById(link.hash?.slice(1)), link }))
-        .filter(s => s.el)
+    let sectionPositions = []
+    const refreshSections = () => {
+        sectionPositions = navLinks
+            .map(link => {
+                const id = link.hash?.slice(1)
+                if (!id) return null
+                const el = document.getElementById(id)
+                if (!el) return null
+                return { link, top: el.offsetTop }
+            })
+            .filter(Boolean)
+    }
+
+    setScrollOffset()
+    refreshSections()
 
     const update = () => {
-        if (!sections.length) return
+        if (!sectionPositions.length) return
 
         const scrollY = window.scrollY + scrollOffset + 1
-        let current = sections[0]
+        let current = sectionPositions[0]
 
-        for (const section of sections) {
-            const top = section.el.getBoundingClientRect().top + window.scrollY
-            if (top <= scrollY) {
+        for (const section of sectionPositions) {
+            if (section.top <= scrollY) {
                 current = section
             } else {
                 break
@@ -68,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const recalcOffset = () => {
         setScrollOffset()
+        refreshSections()
         update()
     }
 
@@ -84,12 +97,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const target = document.getElementById(id)
         if (!target) return
 
-        const top = target.getBoundingClientRect().top + window.scrollY - scrollOffset
+        const top = target.offsetTop - scrollOffset
         window.scrollTo({ top, behavior })
     }
 
     // Handle nav link clicks to apply the computed offset consistently across browsers.
-    sideNav.querySelectorAll('.nav-link').forEach(link => {
+    navLinks.forEach(link => {
         const id = link.hash?.slice(1)
         if (!id) return
 
