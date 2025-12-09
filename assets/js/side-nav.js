@@ -5,13 +5,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sideNav.classList.add('js-enabled')
 
+    const sideNavContainer = sideNav.closest('.side-nav-container')
+    const desktopQuery = window.matchMedia('(min-width: 992px)') // matches Bootstrap lg breakpoint
+
+    const setScrollOffset = () => {
+        // Mobile: offset by the sticky top nav height; Desktop: no offset needed
+        const mobileGap = 12
+        const offset = desktopQuery.matches
+            ? 0
+            : (sideNavContainer?.offsetHeight || 0) + mobileGap
+
+        scrollOffset = offset
+        document.documentElement.style.setProperty('--side-nav-offset', `${offset}px`)
+    }
+
+    let scrollOffset = 0
+    setScrollOffset()
+
     // Build list of sections from nav links
     const sections = [...sideNav.querySelectorAll('.nav-link')]
         .map(link => ({ el: document.getElementById(link.hash?.slice(1)), link }))
         .filter(s => s.el)
 
     const update = () => {
-        const scrollY = window.scrollY + 120
+        const scrollY = window.scrollY + scrollOffset
         const current = sections.findLast(s => s.el.offsetTop <= scrollY)
 
         // Clear all states
@@ -41,6 +58,42 @@ document.addEventListener('DOMContentLoaded', () => {
             ticking = true
         }
     })
+
+    const recalcOffset = () => {
+        setScrollOffset()
+        update()
+    }
+
+    window.addEventListener('resize', recalcOffset)
+    desktopQuery.addEventListener('change', recalcOffset)
+
+    const scrollToSection = (id, behavior = 'smooth') => {
+        const target = document.getElementById(id)
+        if (!target) return
+
+        const top = target.getBoundingClientRect().top + window.scrollY - scrollOffset
+        window.scrollTo({ top, behavior })
+    }
+
+    // On small screens, Safari can ignore scroll-margin for in-page anchors.
+    // Manually adjust scroll position when clicking the side nav.
+    sideNav.addEventListener('click', event => {
+        if (desktopQuery.matches) return
+
+        const link = event.target.closest('.nav-link')
+        if (!link || !sideNav.contains(link)) return
+
+        const targetId = link.hash?.slice(1)
+        if (!targetId) return
+
+        event.preventDefault()
+        scrollToSection(targetId)
+        history.replaceState(null, '', `#${targetId}`)
+    })
+
+    if (window.location.hash && !desktopQuery.matches) {
+        scrollToSection(window.location.hash.slice(1), 'auto')
+    }
 
     update()
 })

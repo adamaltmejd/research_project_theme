@@ -53,7 +53,7 @@ article {
     h1:not(:first-of-type):before {
         content:' ';
         display: block;
-        margin-bottom: $spacer * 1.6;
+        margin-bottom: $spacer * 1;
         border-top: 3pt solid $primary;
         border-radius: 4px;
         -webkit-border-radius: 4px;
@@ -147,6 +147,7 @@ footer#site-footer:before {
     top: 0;
     z-index: 1020;
     background: $body-bg;
+    margin-top: -$spacer * 2;
     margin-bottom: $spacer;
     padding: $spacer * 0.25 0;
     border-bottom: 1px solid rgba($body-color, 0.15);
@@ -173,14 +174,16 @@ footer#site-footer:before {
 @include media-breakpoint-up(lg) {
     main.has-side-nav {
         display: flex;
+        align-items: flex-start;
         gap: $spacer * 2;
 
         .side-nav-container {
-            position: static;
-            flex: 0 0 180px;
+            top: $spacer * 2;
+            margin-top: 0;
+            flex: 0 0 200px;
             margin-left: -200px;
             padding: 0;
-            border: none;
+            border: 1px solid rgba($body-color, 0.15);
             background: transparent;
         }
 
@@ -191,14 +194,13 @@ footer#site-footer:before {
     }
 
     .side-nav-container #side-nav {
-        position: sticky;
-        top: $spacer * 2;
+        width: 100%;
         flex-direction: column;
 
         .nav-link {
             padding: $spacer * 0.4 $spacer * 0.75;
             border: none;
-            border-left: 3px solid transparent;
+            border-left: 4px solid transparent;
             border-radius: 0;
             &.active { border-left-color: $primary; }
         }
@@ -207,7 +209,7 @@ footer#site-footer:before {
             display: flex;
             flex-direction: column;
             padding-left: $spacer * 0.5;
-            .nav-link { border-left-width: 2px; }
+            .nav-link { border-left-width: 3px; }
         }
 
         &.js-enabled .nav-nested:not(.expanded) {
