@@ -7,19 +7,7 @@
     {{ if or .Params.journal (and (isset .Params "paper_url") (not (eq .Params.paper_url ""))) }}
         <li class="list-group-item d-flex justify-content-between align-items-center">
             {{- with .Params.journal -}}
-                <span class="small">{{ partial "icons/icon" (dict "vendor" "fas" "name" "book") }} <em>{{ . }}</em>
-                    {{- with $.Params.publication_date -}}
-                        {{- $parts := split . "-" -}}
-                        {{- $year := index $parts 0 -}}
-                        {{- if ge (len $parts) 2 -}}
-                            {{- $monthNum := index $parts 1 -}}
-                            {{- $monthDate := time (printf "2006-%s-01" $monthNum) -}}
-                            , {{ $monthDate.Format "January" }} {{ $year }}
-                        {{- else -}}
-                            , {{ $year }}
-                        {{- end -}}
-                    {{- end -}}
-                </span>
+                <span class="small">{{ partial "icons/icon" (dict "vendor" "fas" "name" "book") }} <em>{{ . }}</em>{{- with $.Date.Format "January 2006"  -}}, {{ . }}{{- end -}}</span>
             {{- else -}}
                 <span></span>
             {{- end -}}

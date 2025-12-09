@@ -49,19 +49,6 @@
       {{/* Server-side rendered list - shown when JS disabled or JSON not available */}}
       {{- if $hasJson -}}<noscript>{{- end -}}
         {{- range .Pages.ByDate.Reverse -}}
-        {{- $pubDateRaw := .Params.publication_date | default "" | string -}}
-        {{- $pubDateFormatted := "" -}}
-        {{- with $pubDateRaw -}}
-          {{- $parts := split . "-" -}}
-          {{- $year := index $parts 0 -}}
-          {{- if and (ge (len $parts) 2) (index $parts 1) -}}
-            {{- $monthNum := index $parts 1 -}}
-            {{- $monthDate := time (printf "2006-%s-01" $monthNum) -}}
-            {{- $pubDateFormatted = printf "%s %s" ($monthDate.Format "January") $year -}}
-          {{- else -}}
-            {{- $pubDateFormatted = $year -}}
-          {{- end -}}
-        {{- end -}}
         <div class="card my-3">
           <div class="card-header py-1 small">
             <div class="float-end ms-2 mb-1">
@@ -80,7 +67,7 @@
               {{- end -}}
             </div>
             {{- with .Params.journal -}}
-            <span class="text-muted fst-italic">{{ . }}{{ with $pubDateFormatted }}, {{ . }}{{ end }}</span>
+              <span class="text-muted fst-italic">{{ . }}{{- with $.Date.Format "January 2006"  -}}, {{ . }}{{- end -}}</span>
             {{- end -}}
           </div>
           <div class="card-body">
