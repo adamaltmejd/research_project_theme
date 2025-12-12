@@ -1,17 +1,37 @@
 {{ define "main" }}
-    {{- /* Count h1 and h2 headings with id attributes */ -}}
-    {{- $headings := findRE `<h[12][^>]*id="[^"]+"[^>]*>` .Content -}}
-    {{- $hasSideNav := and .Params.side_nav (gt (len $headings) 1) -}}
-    <main{{ if $hasSideNav }} class="has-side-nav"{{ end }}>
-        {{- if $hasSideNav -}}
-        <aside class="side-nav-container">
-            {{ partial "side_nav.html" . }}
-        </aside>
-        {{- end -}}
-        <article>
-            {{ if or (eq .Section "research") (eq .Section "projects") }}{{ partial "project_info.html" . }}{{ end }}
-            {{ .Content }}
-            {{- partial "footer.html" . -}}
-        </article>
-    </main>
+  {{- /* Count h1 and h2 headings with id attributes */ -}}
+  {{- $headings := findRE `<h[12][^>]*id="[^"]+"[^>]*>` .Content -}}
+  {{- $hasSideNav := and .Params.side_nav (gt (len $headings) 1) -}}
+  <main{{ if $hasSideNav }} class="has-side-nav"{{ end }}>
+    {{- if $hasSideNav -}}
+      <aside class="side-nav-container">
+        {{ partial "side_nav.html" . }}
+      </aside>
+      {{- end -}}
+    <article>
+      {{- if or (eq .Section "research") (eq .Section "projects") -}}
+        <ul class="list-group mb-4">
+          <li class="list-group-item">
+            {{- range .Params.subject -}}<span class="badge ms-1 text-bg-secondary">{{ partial "icons/icon" (dict "vendor" "fas" "name" "tag") }} <a href="/{{ $.Section }}/?subject={{ .  }}">{{ . }}</a></span>{{- end -}}
+            {{- with .Params.status }}<span class="badge ms-1 float-end {{ if eq . "Published" }}text-bg-success{{ else }}text-bg-warning{{ end }}">{{ partial "icons/icon" (dict "vendor" "fas" "name" "bars-progress") }} Status: {{ . }} </span>{{ end -}}
+            {{- with .Params.paper_url }}<span class="badge ms-1 float-end text-bg-secondary"><a href="{{ . }}">&nbsp;{{ partial "icons/icon" (dict "vendor" "fas" "name" "file-pdf") }} Read paper</a></span>{{ end -}}
+          </li>
+          {{- with .Params.journal -}}<li class="list-group-item small">{{ partial "icons/icon" (dict "vendor" "fas" "name" "book") }} Published in: <em>{{ . }}</em>{{- with $.Date.Format "January 2006"  -}}, {{ . }}</li>{{- end -}}
+        </ul>
+      {{- end -}}
+
+        <h1>{{ .Title }}</h1>
+        {{- with .Params.authors }}<p>By: <em>{{ delimit ( . | default slice) ", " ", and " }}</em></p>{{- end -}}
+      {{- end -}}
+      {{ .Content }}
+      
+      {{- if or (eq .Section "research") (eq .Section "projects") -}}
+        <div class="d-flex justify-content-between mt-2">
+          <div><a class="btn btn-outline-primary btn-sm" href="{{ "/research" | relURL }}">{{ partial "icons/icon" (dict "vendor" "fas" "name" "left-long") }} All research</a></div>
+          <div class="text-end small muted">Last updated: {{ .Lastmod | time.Format ":date_long" }}</div>
+        </div>
+      {{- end -}}
+      {{- partial "footer.html" . -}}
+    </article>
+  </main>
 {{ end }}

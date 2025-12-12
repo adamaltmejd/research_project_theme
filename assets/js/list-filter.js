@@ -148,7 +148,8 @@
     const field = (name) => card.querySelector(`[data-field="${name}"]`);
 
     // Required fields
-    field('title').textContent = item.title || '';
+    const title = item.shorttitle || item.title || '';
+    field('title').textContent = title;
     field('authors').textContent = item.authors || '';
     field('desc').textContent = item.desc || '';
     field('lastmod').textContent = item.lastmod_formatted ? `Last updated: ${item.lastmod_formatted}` : '';

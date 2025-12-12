@@ -27,7 +27,7 @@ $h2-font-size:                $font-size-base * 1.35;
 $h3-font-size:                $font-size-base * 1.25;
 $h4-font-size:                $font-size-base * 1.1;
 $h5-font-size:                $font-size-base * 1.05;
-$h6-font-size:                $font-size-base;
+$h6-font-size:                $font-size-base * 0.90;
 
 // Override Bootstrap typography variables
 @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Lato:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');

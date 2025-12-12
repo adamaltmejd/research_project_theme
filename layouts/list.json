@@ -8,6 +8,7 @@
   {{- if $index }},{{ end -}}
   {
     "title": {{ $page.Title | htmlUnescape | jsonify }},
+    "shorttitle": {{ $page.Params.shorttitle | htmlUnescape | jsonify }},
     "authors": {{ delimit ($page.Params.authors | default slice) ", " | jsonify }},
     "desc": {{ $page.Summary | plainify | htmlUnescape | jsonify }},
     "content": {{ $page.Plain | htmlUnescape | jsonify }},
@@ -15,11 +16,9 @@
     "status": {{ $page.Params.status | default "" | jsonify }},
     "subject": {{ with $page.Params.subject }}{{ if reflect.IsSlice . }}{{ . | jsonify }}{{ else }}[{{ . | jsonify }}]{{ end }}{{ else }}[]{{ end }},
     "paper_url": {{ $page.Params.paper_url | default "" | jsonify }},
-    "section": {{ $page.Section | jsonify }},
     "date_formatted": {{ $page.Date | time.Format "January 2006" | jsonify }},
     "lastmod": {{ $page.Lastmod | time.Format "2006-01-02" | jsonify }},
-    "lastmod_formatted": {{ $page.Lastmod | time.Format "Mon, Jan 2, 2006" | jsonify }},
-    "permalink": {{ $page.Permalink | jsonify }},
+    "lastmod_formatted": {{ $page.Lastmod | time.Format ":date_long" | jsonify }},
     "relpermalink": {{ $page.RelPermalink | jsonify }}
   }
 {{- end -}}

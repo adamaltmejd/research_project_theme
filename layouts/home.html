@@ -28,7 +28,7 @@
             {{ end }}
             </div>
             <div class="d-flex justify-content-end mt-2">
-              <a class="btn btn-outline-primary btn-sm" href="{{ "/research/?status=published" | relURL }}">All publications →</a>
+              <a class="btn btn-outline-primary btn-sm" href="{{ "/research/?status=published" | relURL }}">All publications {{ partial "icons/icon" (dict "vendor" "fas" "name" "right-long") }}</a>
             </div>
             {{ end }}
             {{- partial "footer.html" . -}}

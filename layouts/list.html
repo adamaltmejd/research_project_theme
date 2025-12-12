@@ -71,16 +71,14 @@
             {{- end -}}
           </div>
           <div class="card-body">
-            <h5 class="card-title mb-2">{{ .Title }}</h5>
-            <h6 class="card-subtitle mb-1 text-muted">{{ delimit (.Params.authors | default slice) ", " }}</h6>
+            <h5 class="card-title mb-2">{{- if .Params.shorttitle }}{{ .Params.shorttitle }}{{ else }}{{ .Title }}{{ end -}}</h5>
+            <h6 class="card-subtitle mb-1 text-muted fst-italic">{{ delimit (.Params.authors | default slice) ", " }}</h6>
             <p class="card-text">{{ .Summary }}</p>
           </div>
           <div class="card-footer text-muted small py-1">
-            <span>Last updated: {{ .Lastmod.Format "Jan 2, 2006" }}</span>
+            <span>Last updated: {{ .Lastmod | time.Format ":date_long" }}</span>
             <div class="float-end text-muted">
-              <a class="card-link stretched-link text-muted" href="{{ .RelPermalink }}">
-                <nobr>Read more →</nobr>
-              </a>
+              <a class="card-link stretched-link text-muted" href="{{ .RelPermalink }}"><nobr>Read more</a> {{ partial "icons/icon" (dict "vendor" "fas" "name" "right-long") }}</nobr>
             </div>
           </div>
         </div>
@@ -110,7 +108,7 @@
         <div class="card-body">
           {{/* Card Content */}}
           <h5 class="card-title mb-2" data-field="title"></h5>
-          <h6 class="card-subtitle mb-1 text-muted" data-field="authors"></h6>
+          <h6 class="card-subtitle mb-1 text-muted fst-italic" data-field="authors"></h6>
           <p class="card-text" data-field="desc"></p>
         </div>
 
@@ -118,9 +116,7 @@
         <div class="card-footer text-muted small py-1">
           <span data-field="lastmod"></span>
           <div class="float-end text-muted">
-            <a class="card-link stretched-link text-muted" data-field="link">
-              <nobr>Read more →</nobr>
-            </a>
+            <nobr><a class="card-link stretched-link text-muted" data-field="link">Read more</a> {{ partial "icons/icon" (dict "vendor" "fas" "name" "right-long") }}</nobr>
           </div>
         </div>
       </div>
